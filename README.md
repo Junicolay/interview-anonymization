@@ -1,2 +1,10 @@
-# interview-anonymization
-Research project on privacy-preserving representation learning for interview anonymization.
+# Privacy-Preserving Representation Learning for Interview Anonymization
+
+## Research question
+TBD
+
+## Supervisor
+Prof. Andrea Cavallaro
+
+## Current stage
+Literature review, mathematical formalization of representations, and dataset selection.
