@@ -1,7 +1,7 @@
 # Privacy-Preserving Representation Learning for Interview Anonymization
 
 ## Research question
-TBD
+How can speaker-identifying information in interviews be reduced through anonymization methods while preserving semantic content?
 
 ## Supervisor
 Prof. Andrea Cavallaro
