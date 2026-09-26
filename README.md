@@ -7,4 +7,8 @@ How can speaker-identifying information in interviews be reduced through anonymi
 Prof. Andrea Cavallaro
 
 ## Current stage
-Literature review, mathematical formalization of representations, and dataset selection.
+The first speaker-identifiability baseline has been implemented using pretrained ECAPA-TDNN embeddings.
+
+The current pipeline evaluates speaker identification and speaker verification before anonymization. The next stage is to implement and evaluate the remaining candidate representations and develop a targeted speech anonymization approach.
+
+ASR--TTS remains a possible strong baseline for comparison.
