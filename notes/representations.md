@@ -14,7 +14,7 @@ Let `X` denote an audio utterance.
 
 We define:
 
-`Z_id(X) = E_ECAPA(X)`
+$Z_id(X) = E_ECAPA(X)$
 
 where `E_ECAPA` is a pretrained ECAPA-TDNN speaker encoder.
 
