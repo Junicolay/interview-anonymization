@@ -46,3 +46,55 @@
 - Define `L_content` mathematically.
 - Decide which information should be removed and which information should be preserved.
 - Build the first experimental baseline for speaker identifiability.
+
+
+## Meeting 3 — ECAPA baseline and anonymization direction
+
+### Material presented
+
+- Presented the implementation of the first speaker-identity baseline using ECAPA-TDNN.
+- Clarified that ECAPA-TDNN is a pretrained speaker encoder from the literature, not a model developed from scratch for this project.
+- Used ECAPA embeddings as the basis for a speaker attacker.
+- Evaluated speaker identifiability using:
+  - multinomial logistic regression,
+  - 1-nearest-neighbour classification with cosine similarity,
+  - speaker verification using cosine similarity and EER.
+- The speaker-identification experiments achieved 100% accuracy and 1.00 macro-F1 on the tested subset.
+- The speaker-verification baseline achieved an EER of approximately 1%, providing a reference level of speaker identifiability before anonymization.
+
+### Feedback / decisions
+
+- The main anonymization direction should be the **second approach: direct / targeted speech anonymization**.
+- The ASR--TTS approach remains interesting and may be used as a strong baseline for comparison.
+- ECAPA is now clearly positioned as the **speaker attacker / evaluation model** rather than as a model developed within the project.
+- The next stage should focus on implementing and evaluating the other candidate representations.
+- Different datasets may be used when necessary for a specific representation. In particular, a dedicated dataset may be required for accent representation.
+- EPFL/HPC storage will be provided to handle the larger datasets and models required for the project.
+
+### Current status
+
+The first speaker-identifiability baseline is now implemented.
+
+The current experimental logic is:
+
+`X -> representation -> speaker attacker`
+
+and, after anonymization:
+
+`X' = T(X) -> representation -> same speaker attacker`
+
+The goal is to compare speaker identifiability before and after anonymization while preserving semantic content.
+
+### Next steps
+
+1. Set up the EPFL/HPC storage.
+2. Implement the remaining candidate representations:
+   - `Z_accent`,
+   - `Z_prosody`,
+   - `Z_timbre`,
+   - `Z_style`,
+   - `Z_content`.
+3. Use representation-specific datasets when required.
+4. Evaluate speaker information contained in each representation.
+5. Start implementing the direct / targeted anonymization approach.
+6. Keep ASR--TTS as a possible baseline for comparison.
