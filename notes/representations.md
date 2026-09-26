@@ -14,7 +14,7 @@ Let `X` denote an audio utterance.
 
 We define:
 
-$Z_id(X) = E_ECAPA(X)$
+$Z_{id}(X) = E_{ECAPA}(X)$
 
 where `E_ECAPA` is a pretrained ECAPA-TDNN speaker encoder.
 
@@ -24,20 +24,20 @@ ECAPA-TDNN.
 
 ### Paper
 
-Desplanques et al. (2020),  
+Desplanques et al. (2020),
 *ECAPA-TDNN: Emphasized Channel Attention, Propagation and Aggregation in TDNN Based Speaker Verification.*
 
 ### Representation
 
 The encoder produces frame-level representations:
 
-`H(X) = (h_1, ..., h_T)`
+$H(X) = (h_1, ..., h_T)$
 
 which are aggregated using attentive statistics pooling.
 
 The pooled statistics are projected into the final speaker embedding:
 
-`Z_id = P_theta([mu; sigma])`
+$Z_{id} = P_{\theta}([\mu; \sigma])$
 
 ### Role in the project
 
@@ -45,7 +45,7 @@ The pooled statistics are projected into the final speaker embedding:
 
 Because ECAPA-TDNN is trained for speaker discrimination, it is expected that:
 
-`Z_id -> S_hat`
+$Z_{id} \rightarrow \hat{S}$
 
 where `S` denotes speaker identity.
 
@@ -61,21 +61,21 @@ Let `X` denote an audio utterance and `A` its accent label.
 
 A pretrained XLSR encoder produces frame-level representations:
 
-`H(X) = (h_1, ..., h_T)`
+$H(X) = (h_1, ..., h_T)$
 
 which are aggregated using mean pooling:
 
-`h_bar(X) = (1/T) * sum_t h_t`
+$\bar{h}(X) = \frac{1}{T} \sum_t h_t$
 
 The pooled representation is passed through an information bottleneck `B_phi`.
 
 We define:
 
-`Z_accent(X) = B_phi(h_bar(X))`
+$Z_{accent}(X) = B_{\phi}(\bar{h}(X))$
 
 with:
 
-`Z_accent(X) in R^64`
+$Z_{accent}(X) \in \mathbb{R}^{64}$
 
 ### Model
 
@@ -83,7 +83,7 @@ GenAID.
 
 ### Paper
 
-Zhong et al. (2025),  
+Zhong et al. (2025),
 *AccentBox: Towards High-Fidelity Zero-Shot Accent Generation.*
 
 ### Training objective
@@ -92,11 +92,11 @@ The representation is trained to remain informative about accent while reducing 
 
 The loss is:
 
-`L = L_accent + alpha * L_spk`
+$L = L_{accent} + \alpha L_{spk}$
 
 with:
 
-`L_spk = MSE(p(S | Z_accent), U)`
+$L_{spk} = MSE(p(S \mid Z_{accent}), U)$
 
 where `U` is the uniform distribution over speakers.
 
@@ -106,7 +106,7 @@ where `U` is the uniform distribution over speakers.
 
 The project will test whether speaker identity can still be recovered from it:
 
-`Z_accent -> S_hat`
+$Z_{accent} \rightarrow \hat{S}$
 
 If speaker identity remains predictable, this indicates residual identity leakage through accent-related information.
 
@@ -118,35 +118,35 @@ If speaker identity remains predictable, this indicates residual identity leakag
 
 Prosody includes temporal and melodic properties of speech such as:
 
-- rhythm,
-- intonation,
-- stress,
-- pitch variations,
-- intensity contours.
+* rhythm,
+* intonation,
+* stress,
+* pitch variations,
+* intensity contours.
 
 The representation is based on the W-PRO model.
 
 A pretrained WavLM encoder produces:
 
-`H(X) = (h_1, ..., h_T)`
+$H(X) = (h_1, ..., h_T)$
 
 Statistics pooling is then applied:
 
-`mu(X) = (1/T) * sum_t h_t`
+$\mu(X) = \frac{1}{T} \sum_t h_t$
 
 and:
 
-`sigma^2(X) = (1/T) * sum_t (h_t - mu(X))^2`
+$\sigma^2(X) = \frac{1}{T} \sum_t (h_t - \mu(X))^2$
 
 The pooled representation is processed by fully connected layers.
 
 We define:
 
-`Z_prosody(X) = E_W-PRO(X)`
+$Z_{prosody}(X) = E_{W-PRO}(X)$
 
 with:
 
-`Z_prosody(X) in R^250`
+$Z_{prosody}(X) \in \mathbb{R}^{250}$
 
 ### Model
 
@@ -154,7 +154,7 @@ W-PRO.
 
 ### Paper
 
-Gengembre et al. (2024),  
+Gengembre et al. (2024),
 *Disentangling Prosody and Timbre Embeddings via Voice Conversion.*
 
 ### Training idea
@@ -172,7 +172,7 @@ non-timbral speaker information that survives voice conversion.
 
 The project will evaluate:
 
-`Z_prosody -> S_hat`
+$Z_{prosody} \rightarrow \hat{S}$
 
 ---
 
@@ -184,7 +184,7 @@ Timbre refers to relatively stable acoustic characteristics of a speaker's voice
 
 We define:
 
-`Z_timbre(X) = E_TBR(X)`
+$Z_{timbre}(X) = E_{TBR}(X)$
 
 where `E_TBR` is an encoder intended to capture speaker-related information complementary to the prosody representation.
 
@@ -194,7 +194,7 @@ Timbre encoder from the framework of Gengembre et al.
 
 ### Paper
 
-Gengembre et al. (2024),  
+Gengembre et al. (2024),
 *Disentangling Prosody and Timbre Embeddings via Voice Conversion.*
 
 ### Training idea
@@ -203,7 +203,7 @@ The prosody representation is first learned and kept fixed.
 
 A second encoder is then trained so that:
 
-`[Z_prosody ; Z_timbre] -> S_hat`
+$[Z_{prosody}; Z_{timbre}] \rightarrow \hat{S}$
 
 remains predictive of speaker identity.
 
@@ -215,8 +215,8 @@ It should not be interpreted as a perfectly pure timbre representation, because 
 
 The distinction with `Z_id` is important:
 
-- `Z_id` = global speaker representation,
-- `Z_timbre` = candidate representation of one more specific source of speaker-related information.
+* `Z_id` = global speaker representation,
+* `Z_timbre` = candidate representation of one more specific source of speaker-related information.
 
 ---
 
@@ -226,7 +226,7 @@ The distinction with `Z_id` is important:
 
 Let:
 
-`W = ASR(X)`
+$W = ASR(X)$
 
 denote the transcription of the interview.
 
@@ -234,19 +234,19 @@ The representation is based on a content-independent style encoder.
 
 A RoBERTa encoder produces token-level representations:
 
-`H(W) = (h_1, ..., h_n)`
+$H(W) = (h_1, ..., h_n)$
 
 which are aggregated using mean pooling:
 
-`h_bar(W) = (1/n) * sum_i h_i`
+$\bar{h}(W) = \frac{1}{n} \sum_i h_i$
 
 We define:
 
-`Z_style(X) = E_CISR(ASR(X))`
+$Z_{style}(X) = E_{CISR}(ASR(X))$
 
 with:
 
-`Z_style(X) in R^768`
+$Z_{style}(X) \in \mathbb{R}^{768}$
 
 ### Model
 
@@ -254,7 +254,7 @@ Content-Independent Style Representation (CISR).
 
 ### Paper
 
-Wegmann et al. (2022),  
+Wegmann et al. (2022),
 *Same Author or Just Same Topic? Towards Content-Independent Style Representations.*
 
 ### Training objective
@@ -263,25 +263,25 @@ The model uses contrastive authorship verification.
 
 For an anchor text `W_A`, a positive text from the same author `W_A+`, and a negative text from another author `W_B-`, the representation is trained so that:
 
-`d(E_CISR(W_A), E_CISR(W_A+)) < d(E_CISR(W_A), E_CISR(W_B-))`
+$d(E_{CISR}(W_A), E_{CISR}(W_{A+})) < d(E_{CISR}(W_A), E_{CISR}(W_{B-}))$
 
 with a triplet loss:
 
-`L_style = max(d(z_A, z_A+) - d(z_A, z_B-) + m, 0)`
+$L_{style} = \max(d(z_A, z_{A+}) - d(z_A, z_{B-}) + m, 0)$
 
 ### Role in the project
 
 `Z_style` captures candidate speaker-dependent linguistic habits such as:
 
-- word choice,
-- fillers,
-- discourse markers,
-- contractions,
-- syntactic habits.
+* word choice,
+* fillers,
+* discourse markers,
+* contractions,
+* syntactic habits.
 
 The project will evaluate:
 
-`Z_style -> S_hat`
+$Z_{style} \rightarrow \hat{S}$
 
 Strong speaker predictability would indicate that a speaker can still be identified from linguistic behavior even when acoustic information is removed.
 
@@ -293,19 +293,19 @@ Strong speaker predictability would indicate that a speaker can still be identif
 
 Let:
 
-`W = ASR(X)`
+$W = ASR(X)$
 
 denote the transcription of the original interview.
 
 We define:
 
-`Z_content(X) = E_sem(ASR(X))`
+$Z_{content}(X) = E_{sem}(ASR(X))$
 
 where `E_sem` is a Sentence-BERT-style semantic encoder.
 
 The candidate representation has dimension:
 
-`Z_content(X) in R^d`
+$Z_{content}(X) \in \mathbb{R}^{d}$
 
 ### Model
 
@@ -313,7 +313,7 @@ Sentence-BERT-style semantic encoder.
 
 ### Paper
 
-Reimers and Gurevych (2019),  
+Reimers and Gurevych (2019),
 *Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks.*
 
 ### Role in the project
@@ -322,25 +322,25 @@ Unlike the previous representations, `Z_content` should be preserved during anon
 
 Let:
 
-`X' = T(X)`
+$X' = T(X)$
 
 denote the anonymized utterance.
 
 The desired behavior is:
 
-`Z_content(X') approximately equals Z_content(X)`
+$Z_{content}(X') \approx Z_{content}(X)$
 
 Semantic preservation is measured using cosine similarity:
 
-`Sim_content(X, X') =
-(Z_content(X)^T Z_content(X')) /
-(||Z_content(X)|| ||Z_content(X')||)`
+$Sim_{content}(X, X') =
+\frac{Z_{content}(X)^T Z_{content}(X')}
+{|Z_{content}(X)| |Z_{content}(X')|}$
 
 The corresponding content loss is:
 
-`L_content = 1 - Sim_content(X, X')`
+$L_{content} = 1 - Sim_{content}(X, X')$
 
-The anonymization system should minimize `L_content`.
+The anonymization system should minimize $L_{content}$.
 
 ---
 
@@ -356,7 +356,7 @@ Instead, each representation should be interpreted according to its own training
 
 In particular:
 
-- high speaker predictability from `Z_timbre` is partly expected by construction;
-- speaker predictability from `Z_accent` represents residual identity leakage, since speaker-specific information is explicitly discouraged during training;
-- `Z_id` acts as the global reference for speaker recognizability;
-- `Z_content` represents information that should be preserved rather than removed.
+* high speaker predictability from `Z_timbre` is partly expected by construction;
+* speaker predictability from `Z_accent` represents residual identity leakage, since speaker-specific information is explicitly discouraged during training;
+* `Z_id` acts as the global reference for speaker recognizability;
+* `Z_content` represents information that should be preserved rather than removed.
