@@ -31,16 +31,18 @@ The difference between the two will be used to quantify the effect of anonymizat
 
 ---
 
-## 3. Dataset split strategy
+## 3. Dataset strategy and split
 
-The dataset will be divided into training, validation, and test sets.
+The dataset will be selected according to the requirements of each representation. VoxCeleb is currently used for speaker-identity experiments, while representation-specific datasets may be used when necessary, for example for accent representation.
+
+The selected dataset will be divided into training, validation, and test sets.
 
 The split must avoid leakage between segments coming from the same recording.
 
 When possible:
 
 - training and test utterances should come from different recordings,
-- the same speakers may appear in both sets for speaker identification experiments,
+- the same speakers may appear in both sets for speaker-identification experiments,
 - anonymization evaluation should always be performed on held-out data.
 
 The exact split strategy will depend on the selected dataset.
@@ -57,36 +59,44 @@ For a representation `Z_j`:
 
 The main output will be speaker-identification performance on held-out data.
 
+For `Z_id`, the representation is obtained using the pretrained ECAPA-TDNN speaker encoder:
+
+`X -> ECAPA -> Z_id -> speaker attacker -> S_hat`
+
+ECAPA-TDNN itself is not trained as part of this project. The downstream speaker attacker and evaluation protocol are implemented for this project.
+
 This establishes the reference level of identifiability before anonymization.
 
 ---
 
-## 5. Baseline 2 — ASR–TTS anonymization
+## 5. Main anonymization direction — Targeted speech anonymization
 
-A strong anonymization baseline will use:
+The main direction is direct / targeted speech anonymization:
 
-`X -> ASR -> W -> TTS -> X'_TTS`
+`X -> T -> X'`
 
-The reconstructed speech will then be evaluated using the same privacy and utility protocol as all other methods.
+The anonymization method will modify selected speaker-related characteristics while attempting to preserve semantic content.
 
-This baseline is useful because it is expected to strongly remove acoustic speaker characteristics.
+Possible targets include:
+
+- timbre,
+- accent,
+- prosody,
+- lexical / linguistic style.
+
+The first targeted method will be selected from the literature based on implementation availability and compatibility with the selected datasets.
 
 ---
 
-## 6. Targeted anonymization methods
+## 6. Baseline 2 — ASR–TTS anonymization
 
-One or more targeted anonymization methods will be selected from the literature.
+ASR–TTS remains a possible strong comparison baseline:
 
-Each method will modify only a subset of speaker-related characteristics.
+`X -> ASR -> W -> TTS -> X'_TTS`
 
-Possible categories include:
+The reconstructed speech will be evaluated using the same privacy and utility protocol as the targeted anonymization methods.
 
-- timbre modification,
-- accent modification,
-- prosody modification,
-- lexical-style modification.
-
-The exact methods will be selected after reviewing implementation availability and compatibility with the chosen datasets.
+This baseline is useful because it is expected to strongly modify acoustic speaker characteristics.
 
 ---
 
@@ -112,7 +122,7 @@ versus
 
 A larger decrease indicates stronger privacy protection.
 
-Speaker verification may be added as an additional evaluation if needed.
+Speaker verification may be used as an additional evaluation, building on the current ECAPA verification baseline.
 
 ---
 
@@ -145,24 +155,26 @@ Example:
 |---|---:|---:|---:|
 | Original | TBD | 0 | 0 |
 | ASR–TTS | TBD | TBD | TBD |
-| Method 1 | TBD | TBD | TBD |
-| Method 2 | TBD | TBD | TBD |
+| Targeted method 1 | TBD | TBD | TBD |
+| Targeted method 2 | TBD | TBD | TBD |
 
-The goal is to identify the methods that provide the best privacy–utility trade-off.
+The goal is to compare privacy protection and semantic preservation across methods.
 
 ---
 
 ## 10. Initial implementation order
 
-1. Load and inspect the selected dataset.
-2. Create train / validation / test splits.
-3. Implement representation extraction.
-4. Train the original speaker-identification baseline.
-5. Implement the ASR–TTS baseline.
-6. Re-run the privacy and utility evaluation.
-7. Add the first targeted anonymization method.
-8. Compare methods using the same evaluation protocol.
-9. Add additional methods only if time permits.
+1. Set up the EPFL/HPC storage.
+2. Load and inspect the selected datasets.
+3. Create train / validation / test splits.
+4. Implement the remaining representation extraction pipelines.
+5. Train the original speaker-identification baselines.
+6. Evaluate speaker information contained in each representation.
+7. Implement the first targeted anonymization method.
+8. Re-run the privacy and utility evaluation.
+9. Implement ASR–TTS as a comparison baseline if useful.
+10. Compare methods using the same evaluation protocol.
+11. Add additional anonymization methods only if time permits.
 
 ---
 
