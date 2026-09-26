@@ -62,6 +62,18 @@
 - The speaker-identification experiments achieved 100% accuracy and 1.00 macro-F1 on the tested subset.
 - The speaker-verification baseline achieved an EER of approximately 1%, providing a reference level of speaker identifiability before anonymization.
 
+### Important implementation distinction
+
+The ECAPA pipeline consists of two separate components:
+
+`X -> pretrained ECAPA -> Z_id -> downstream speaker attacker -> S_hat`
+
+- **ECAPA-TDNN:** pretrained model imported from the literature.
+- **ECAPA embedding extraction:** implemented as part of the project.
+- **Speaker attacker:** downstream models and evaluation protocols implemented for the project.
+- **Logistic regression:** trained on the extracted ECAPA embeddings; it is not part of ECAPA itself.
+- **1-NN / cosine verification:** uses the geometry of the ECAPA embeddings without training a new neural speaker encoder.
+
 ### Feedback / decisions
 
 - The main anonymization direction should be the **second approach: direct / targeted speech anonymization**.
