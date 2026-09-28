@@ -137,7 +137,7 @@ The goal is to compare speaker identifiability before and after anonymization wh
 
   `I live in Lausanne -> I live in Switzerland`
 
-- This could be viewed as a form of generalization / replacement of potentially identifying information.
+- This can be viewed as a form of generalization of potentially identifying information.
 - However, whether a piece of information is compromising depends strongly on the context.
 - For example, mentioning Lausanne may be problematic in one setting but not in another.
 - Therefore, the privacy–utility trade-off depends on the speaker, context, population, and attacker.
@@ -172,6 +172,14 @@ In particular, Aggazzotti highlights the trade-off between:
 
 - This could become a more specific research direction later in the project, especially if time permits.
 
+### Infrastructure / project organization
+
+- Prof. Cavallaro will provide access to the **EPFL HPC infrastructure**.
+- Storage will therefore no longer be a major constraint, making it possible to consider **additional datasets beyond VoxCeleb** in the future.
+- GitHub access was provided to Prof. Cavallaro.
+- The repository should now be cleaned and organized.
+- A summary of the work completed so far should be added to the repository so that the current state of the project is easy to understand and follow at any time.
+
 ### Next steps
 
 1. Improve the speaker attacker and adapt it to the **long-form interview setting**.
@@ -180,4 +188,8 @@ In particular, Aggazzotti highlights the trade-off between:
 4. Find a way to incorporate **information loss** into `L_content`.
 5. Keep the compromising-information parameter fixed to zero for now.
 6. If time permits, vary this parameter and study its effect on the privacy–utility trade-off.
-7. Consider **stylistic anonymization vs. semantic fidelity** as a possible later research direction.
+7. Obtain access to the EPFL HPC infrastructure.
+8. Consider additional datasets beyond VoxCeleb once the HPC setup is available.
+9. Clean and organize the GitHub repository.
+10. Add a concise summary of the project, experiments, decisions, and current status to the repository.
+11. Consider **stylistic anonymization vs. semantic fidelity** as a possible later research direction.
