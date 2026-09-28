@@ -138,15 +138,19 @@ The discussion focused on how to extend the current evaluation framework from th
 
 #### 3. Content loss
 
-- Semantic similarity and contradiction detection provide two components of the current content evaluation.
-- The main unresolved issue is **information loss**.
+- The current content evaluation considers two complementary aspects:
+  - **Semantic similarity:** measures how similar the overall meaning of the original and anonymized transcripts is.
+  - **Contradiction detection:** checks whether the anonymized transcript introduces information that conflicts with the original.
+
+- However, these metrics do not fully capture **information loss**.
 
 Example:
 
 `W_o = A + B -> W_a = A`
 
-- Part of the original information disappears without necessarily producing a contradiction.
-- Need to determine how to quantify and integrate this loss into `L_content`.
+Here, the remaining content may still be semantically similar to the original and no contradiction is introduced, but information contained in `B` has disappeared.
+
+- The main open question is therefore how to **quantify and incorporate information loss into `L_content`**.
 
 #### 4. Possible future direction
 
