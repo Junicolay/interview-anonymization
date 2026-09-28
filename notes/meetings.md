@@ -111,85 +111,73 @@ The goal is to compare speaker identifiability before and after anonymization wh
 5. Start implementing the direct / targeted anonymization approach.
 6. Keep ASR--TTS as a possible baseline for comparison.
 
-## Meeting 4 — Speaker attacker, privacy–utility trade-off, and content loss
+## Meeting 4 — Long-form evaluation and privacy–utility trade-off
 
-### Material presented
+### Main discussion
 
-- Presented the first speaker-attacker baseline based on a pretrained ECAPA-TDNN speaker encoder.
-- Used ECAPA embeddings for speaker verification and evaluated the baseline using EER.
-- Verified the baseline on non-anonymized speech, obtaining results consistent with the expected results from the literature.
-- Presented the current content-preservation evaluation framework based on semantic similarity and NLI.
-- Discussed the difficulty of quantifying information loss when part of the original content disappears, e.g.
-  `W_o = A + B -> W_a = A`.
+The discussion focused on how to extend the current evaluation framework from the initial speaker baseline to the actual interview anonymization problem.
 
-### Feedback / decisions
+### Decisions
 
-#### Long-form speaker attacker
+#### 1. Long-form speaker attack
 
-- The speaker attacker should use **all utterances from an interview/video**, rather than evaluating isolated utterance pairs only.
-- This better reflects the actual interview setting, where an attacker can exploit information accumulated across multiple utterances.
-- The approach used by Aggazzotti is particularly relevant and should be studied in more detail.
+- The speaker attacker should use **all utterances available in an interview/video**, rather than considering isolated utterances only.
+- This reflects the realistic setting where an attacker can accumulate information across the interview.
+- Aggazzotti's evaluation protocol is particularly relevant for this extension.
 
-#### Privacy–utility trade-off
+#### 2. Privacy–utility trade-off
 
-- Potentially sensitive information may need to be generalized rather than simply removed.
-- For example:
+- Potentially identifying information does not necessarily need to be removed completely.
+- A possible anonymization strategy is to **generalize information**:
 
   `I live in Lausanne -> I live in Switzerland`
 
-- This can be viewed as a form of generalization of potentially identifying information.
-- However, whether a piece of information is compromising depends strongly on the context.
-- For example, mentioning Lausanne may be problematic in one setting but not in another.
-- Therefore, the privacy–utility trade-off depends on the speaker, context, population, and attacker.
+- Whether an information is compromising depends on the context.
+- The current assumption is therefore to **not explicitly model compromising information for now**.
+- This assumption should nevertheless be implemented as a **parameter**, initially fixed to zero, so that it can be relaxed later if time permits.
 
-#### Assumption on compromising information
+#### 3. Content loss
 
-- For the current scope of the project, the assumption that compromising information does not need to be explicitly removed can be kept.
-- However, this assumption should be **implemented as a parameter rather than hard-coded**.
-- The parameter can initially be fixed to zero.
-- If time permits, the parameter can later be changed to explicitly account for compromising information and study its effect on the privacy–utility trade-off.
+- Semantic similarity and contradiction detection provide two components of the current content evaluation.
+- The main unresolved issue is **information loss**.
 
-#### Content loss
+Example:
 
-- Semantic similarity and contradiction detection are already considered.
-- The remaining difficulty is to quantify **information loss**.
-- In particular, the case
+`W_o = A + B -> W_a = A`
 
-  `W_o = A + B -> W_a = A`
+- Part of the original information disappears without necessarily producing a contradiction.
+- Need to determine how to quantify and integrate this loss into `L_content`.
 
-  should receive an appropriate penalty even when no contradiction is detected.
-- Need to investigate how this information loss can be incorporated into the overall content-preservation loss.
+#### 4. Possible future direction
 
-### Research direction
+Aggazzotti is particularly relevant to the project and should be studied further.
 
-- The general reasoning and current framework were considered appropriate.
-- Aggazzotti should be reviewed more carefully because the paper addresses several aspects that overlap with the project.
-- A potential future direction is to study **linguistic-style anonymization while preserving semantic content**.
+A possible later direction is:
 
-In particular, Aggazzotti highlights the trade-off between:
+`Stylistic anonymization -> Semantic fidelity`
 
-`Stylistic anonymization <-> Semantic fidelity`
+- Modify linguistic style while preserving the underlying semantic content.
+- This directly raises the trade-off between **stylistic anonymization and semantic fidelity** discussed in Aggazzotti.
 
-- This could become a more specific research direction later in the project, especially if time permits.
+### Infrastructure
 
-### Infrastructure / project organization
+- Prof. Cavallaro will provide access to the **EPFL HPC**.
+- Storage is therefore no longer a major constraint.
+- This opens the possibility of using **datasets beyond VoxCeleb** when required by the different representations.
 
-- Prof. Cavallaro will provide access to the **EPFL HPC infrastructure**.
-- Storage will therefore no longer be a major constraint, making it possible to consider **additional datasets beyond VoxCeleb** in the future.
+### Project organization
+
 - GitHub access was provided to Prof. Cavallaro.
 - The repository should now be cleaned and organized.
-- A summary of the work completed so far should be added to the repository so that the current state of the project is easy to understand and follow at any time.
+- A concise project summary should be added so that the current state, previous work, decisions, and next steps are easily accessible.
 
 ### Next steps
 
-1. Improve the speaker attacker and adapt it to the **long-form interview setting**.
-2. Study and reproduce the relevant evaluation methodology from Aggazzotti.
-3. Re-read Aggazzotti in detail and identify the parts most relevant to the current project.
-4. Find a way to incorporate **information loss** into `L_content`.
-5. Keep the compromising-information parameter fixed to zero for now.
-6. If time permits, vary this parameter and study its effect on the privacy–utility trade-off.
-7. Obtain access to the EPFL HPC infrastructure.
-8. Consider additional datasets beyond VoxCeleb once the HPC setup is available.
-9. Clean and organize the GitHub repository.
-10. Add a concise summary of the project, experiments, decisions, and current status to the repository.
-11. Consider **stylistic anonymization vs. semantic fidelity** as a possible later research direction.
+1. Adapt the speaker attacker to the **long-form interview setting**.
+2. Re-read Aggazzotti and study its evaluation methodology.
+3. Define how to incorporate **information loss** into `L_content`.
+4. Keep the compromising-information parameter at zero for now.
+5. Set up the EPFL HPC environment.
+6. Clean the GitHub repository and add a project summary.
+7. Consider additional datasets when required.
+8. Explore **stylistic anonymization vs. semantic fidelity** if time permits.
