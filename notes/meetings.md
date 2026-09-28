@@ -110,3 +110,74 @@ The goal is to compare speaker identifiability before and after anonymization wh
 4. Evaluate speaker information contained in each representation.
 5. Start implementing the direct / targeted anonymization approach.
 6. Keep ASR--TTS as a possible baseline for comparison.
+
+## Meeting 4 — Speaker attacker, privacy–utility trade-off, and content loss
+
+### Material presented
+
+- Presented the first speaker-attacker baseline based on a pretrained ECAPA-TDNN speaker encoder.
+- Used ECAPA embeddings for speaker verification and evaluated the baseline using EER.
+- Verified the baseline on non-anonymized speech, obtaining results consistent with the expected results from the literature.
+- Presented the current content-preservation evaluation framework based on semantic similarity and NLI.
+- Discussed the difficulty of quantifying information loss when part of the original content disappears, e.g.
+  `W_o = A + B -> W_a = A`.
+
+### Feedback / decisions
+
+#### Long-form speaker attacker
+
+- The speaker attacker should use **all utterances from an interview/video**, rather than evaluating isolated utterance pairs only.
+- This better reflects the actual interview setting, where an attacker can exploit information accumulated across multiple utterances.
+- The approach used by Aggazzotti is particularly relevant and should be studied in more detail.
+
+#### Privacy–utility trade-off
+
+- Potentially sensitive information may need to be generalized rather than simply removed.
+- For example:
+
+  `I live in Lausanne -> I live in Switzerland`
+
+- This could be viewed as a form of generalization / replacement of potentially identifying information.
+- However, whether a piece of information is compromising depends strongly on the context.
+- For example, mentioning Lausanne may be problematic in one setting but not in another.
+- Therefore, the privacy–utility trade-off depends on the speaker, context, population, and attacker.
+
+#### Assumption on compromising information
+
+- For the current scope of the project, the assumption that compromising information does not need to be explicitly removed can be kept.
+- However, this assumption should be **implemented as a parameter rather than hard-coded**.
+- The parameter can initially be fixed to zero.
+- If time permits, the parameter can later be changed to explicitly account for compromising information and study its effect on the privacy–utility trade-off.
+
+#### Content loss
+
+- Semantic similarity and contradiction detection are already considered.
+- The remaining difficulty is to quantify **information loss**.
+- In particular, the case
+
+  `W_o = A + B -> W_a = A`
+
+  should receive an appropriate penalty even when no contradiction is detected.
+- Need to investigate how this information loss can be incorporated into the overall content-preservation loss.
+
+### Research direction
+
+- The general reasoning and current framework were considered appropriate.
+- Aggazzotti should be reviewed more carefully because the paper addresses several aspects that overlap with the project.
+- A potential future direction is to study **linguistic-style anonymization while preserving semantic content**.
+
+In particular, Aggazzotti highlights the trade-off between:
+
+`Stylistic anonymization <-> Semantic fidelity`
+
+- This could become a more specific research direction later in the project, especially if time permits.
+
+### Next steps
+
+1. Improve the speaker attacker and adapt it to the **long-form interview setting**.
+2. Study and reproduce the relevant evaluation methodology from Aggazzotti.
+3. Re-read Aggazzotti in detail and identify the parts most relevant to the current project.
+4. Find a way to incorporate **information loss** into `L_content`.
+5. Keep the compromising-information parameter fixed to zero for now.
+6. If time permits, vary this parameter and study its effect on the privacy–utility trade-off.
+7. Consider **stylistic anonymization vs. semantic fidelity** as a possible later research direction.
