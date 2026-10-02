@@ -45,3 +45,8 @@ The goal is to preserve the semantic content of the interview while facing two m
 VoiceChallenge2026 uses ECAPA-TDNN like us
 
 dans la suppression de mots pour anonymiser, attention à "les métriques uniformes ignorent l'impact sémantique variable des termes".
+
+\[
+\text{information loss} \neq \text{number of deleted words}
+\]
+because "the" does not have the same importance in terms of information as "Geneva"
