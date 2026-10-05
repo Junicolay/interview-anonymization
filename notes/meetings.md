@@ -185,3 +185,132 @@ A possible later direction is:
 6. Clean the GitHub repository and add a project summary.
 7. Consider additional datasets when required.
 8. Explore **stylistic anonymization vs. semantic fidelity** if time permits.
+
+## Meeting 5 — Content preservation and loss evaluation
+
+### Material presented
+
+#### 1. Content preservation framework
+
+- Presented the current framework for evaluating content preservation after anonymization.
+- Explained that semantic similarity and NLI alone may not fully capture information loss.
+- Introduced the idea of explicitly measuring the amount of original information affected by anonymization.
+
+Example:
+
+`W_o = A + B -> W_a = A`
+
+- Semantic similarity can remain high.
+- NLI may not detect a contradiction.
+- However, information contained in `B` is lost.
+
+#### 2. Text Preserved Information (TPI)
+
+- Presented the implementation of **Text Preserved Information (TPI)** as an additional component of the content evaluation.
+- TPI weights affected terms according to their contextual information content:
+
+\[
+IC(t)=-\log P(t)
+\]
+
+and
+
+\[
+TPI =
+1-
+\frac{\sum_{t\in M}IC(t)}
+{\sum_{t\in W_o}IC(t)}
+\]
+
+where `M` represents the original terms affected by anonymization.
+
+- Explained that high TPI corresponds to little information content being affected, while lower TPI indicates greater information loss.
+
+#### 3. TPI validation
+
+- Presented the validation experiments implemented for TPI.
+- Verified basic properties including:
+  - no affected terms -> `TPI = 1`,
+  - all terms affected -> `TPI = 0`,
+  - adding affected terms cannot increase TPI.
+- Tested different transformation types, including:
+  - deletion,
+  - replacement,
+  - multiple modifications,
+  - punctuation,
+  - edge cases.
+
+#### 4. Identification of affected terms
+
+- Presented the current approach for determining the set `M` of affected original terms.
+- Explained the limitations of relying on lexical alignment when anonymization involves paraphrasing or reordering.
+
+Examples:
+
+`I live in Geneva -> I reside in Geneva`
+
+and
+
+`I live in Geneva -> In Geneva I live`
+
+- These cases motivated the use of **semantic alignment** to identify the information affected by anonymization.
+
+#### 5. Semantic alignment
+
+- Presented the proposed semantic alignment approach.
+- The approach uses contextual representations to compute similarities between original and anonymized terms and identify corresponding terms.
+- Introduced the similarity threshold `tau` as part of the alignment procedure.
+- Presented initial controlled examples showing how semantic alignment can identify corresponding terms.
+
+#### 6. Project direction
+
+- Presented the broader objective of using content-preservation losses to evaluate the trade-off between anonymization and preservation of interview content.
+- The current framework combines:
+  - semantic similarity,
+  - NLI,
+  - TPI.
+
+### Feedback / decisions
+
+#### 1. Proceed with semantic alignment
+
+- The next step is to proceed with the **implementation of semantic alignment**.
+- There is no need to compare semantic alignment with SequenceMatcher at this stage.
+- Semantic alignment should be used to identify the affected information `M`.
+
+#### 2. Verify semantic alignment with TPI
+
+- Semantic alignment should first be integrated directly into the TPI computation.
+- The complete pipeline should be tested to verify that it behaves correctly:
+
+`Original -> Anonymized -> Semantic Alignment -> M -> TPI`
+
+- The immediate objective is therefore to verify that semantic alignment produces a meaningful set of affected information and that TPI behaves correctly based on this alignment.
+
+#### 3. Review the TPI literature
+
+- The literature underlying the TPI formulation should be reviewed more carefully.
+- In particular, the theoretical motivation and methodological choices behind TPI should be checked against the relevant literature.
+- This should clarify what TPI actually measures and how it should be interpreted in the context of the project.
+
+#### 4. Focus on real-world evaluation
+
+- Once semantic alignment and TPI have been integrated and verified, the main focus should shift towards testing the proposed content losses on **one or more real-world datasets**.
+- The objective is to observe how the losses behave on realistic data rather than relying mainly on controlled examples.
+
+#### 5. Avoid strong expectations before testing
+
+- No strong assumptions should be made about the quality or usefulness of the proposed losses before testing them on real-world data.
+- The current formulation should therefore be treated as an experimental framework that needs to be evaluated empirically.
+- The behaviour of the losses on real data should guide the next steps and any potential refinement of the methodology.
+
+### Next steps
+
+1. Finalize the semantic alignment implementation.
+2. Integrate semantic alignment with TPI.
+3. Verify the complete semantic alignment + TPI pipeline on controlled examples.
+4. Review the literature underlying TPI.
+5. Select one or more suitable real-world datasets.
+6. Apply the current content losses to the real data.
+7. Analyze how the losses behave empirically before drawing conclusions about their validity or usefulness.
+8. Refine the content-loss formulation if the real-world evaluation indicates that this is necessary.
