@@ -209,18 +209,18 @@ Example:
 - Presented the implementation of **Text Preserved Information (TPI)** as an additional component of the content evaluation.
 - TPI weights affected terms according to their contextual information content:
 
-\[
+$$
 IC(t)=-\log P(t)
-\]
+$$
 
 and
 
-\[
+$$
 TPI =
 1-
 \frac{\sum_{t\in M}IC(t)}
 {\sum_{t\in W_o}IC(t)}
-\]
+$$
 
 where `M` represents the original terms affected by anonymization.
 
