@@ -198,7 +198,9 @@ A possible later direction is:
 
 Example:
 
-`W_o = A + B -> W_a = A`
+$$
+W_o = A + B \rightarrow W_a = A
+$$
 
 - Semantic similarity can remain high.
 - NLI may not detect a contradiction.
