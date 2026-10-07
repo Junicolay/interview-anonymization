@@ -50,3 +50,7 @@ dans la suppression de mots pour anonymiser, attention à "les métriques unifor
 \text{information loss} \neq \text{number of deleted words}
 \]
 because "the" does not have the same importance in terms of information as "Geneva"
+
+
+
+At a threshold of 0.8, semantic alignment successfully handles synonym paraphrases, deletions, insertions and direct replacements. However, it fails on pure reordering, indicating that contextual term embeddings are sensitive to changes in sentence structure. Many-to-one transformations such as “two brothers → siblings” also remain challenging for the current one-to-one matching formulation.
