@@ -330,7 +330,7 @@ and
 
 ## Meeting 6 — NLI anomalies, content-evaluation validation, and VoicePrivacy baseline
 
-**Date:** 09 October 2026
+**Date:** 9 October 2026
 
 ### Material presented
 - Presented the content-preservation pipeline: Faster-Whisper transcription of original and anonymized audio, followed by semantic similarity, NLI, and TPI.
