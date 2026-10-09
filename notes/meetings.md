@@ -352,6 +352,12 @@ and
 - These are hypotheses to test, not conclusions.
 - Prof. Cavallaro appreciated the initiative to find an engineering solution, while emphasizing that root-cause analysis must come first.
 
+#### 2. Clarify whether the anonymizer is expected to change the spoken content
+- Prof. Cavallaro emphasized the importance of establishing whether the anonymization method is **supposed to modify the words/content** or only the speaker's vocal identity while leaving the spoken message unchanged.
+- This distinction is essential for interpreting the results: if B2 McAdams is intended to modify voice characteristics only, differences in ASR transcripts may arise from recognition errors caused by the transformed audio rather than intentional content changes.
+- Check the intended behaviour and design of the B2 McAdams baseline, then use that expectation to guide the investigation of transcript differences and NLI predictions.
+- Do not assume that transcript changes are intended or unintended until the anonymizer's expected behaviour has been verified.
+
 #### 2. Validate ASR and evaluate a larger, randomly sampled dataset
 - The 100-pair experiment is preliminary. Check ASR reliability and whether its errors may explain apparent content differences.
 - Extend the evaluation to a larger sample.
