@@ -1,6 +1,8 @@
 # Meeting Notes
 
-## Meeting 1 — Project introduction (3 September 2026)
+## Meeting 1 — Project introduction
+
+**Date:** 3 September 2026
 
 ### Main discussion
 - Prof. Cavallaro presented two possible research projects.
@@ -22,7 +24,9 @@
 - Start defining a possible research direction.
 
 
-## Meeting 2 — Representation framework and project formalization (18 September 2026)
+## Meeting 2 — Representation framework and project formalization
+
+**Date:** 18 September 2026
 
 ### Material presented
 - Presented the first project document containing candidate representations for:
@@ -48,7 +52,9 @@
 - Build the first experimental baseline for speaker identifiability.
 
 
-## Meeting 3 — ECAPA baseline and anonymization direction (25 September 2026)
+## Meeting 3 — ECAPA baseline and anonymization direction
+
+**Date:** 25 September 2026
 
 ### Material presented
 
@@ -111,7 +117,9 @@ The goal is to compare speaker identifiability before and after anonymization wh
 5. Start implementing the direct / targeted anonymization approach.
 6. Keep ASR--TTS as a possible baseline for comparison.
 
-## Meeting 4 — Long-form evaluation and privacy–utility trade-off (28 September 2026)
+## Meeting 4 — Long-form evaluation and privacy–utility trade-off
+
+**Date:** 28 September 2026
 
 ### Main discussion
 
@@ -186,7 +194,9 @@ A possible later direction is:
 7. Consider additional datasets when required.
 8. Explore **stylistic anonymization vs. semantic fidelity** if time permits.
 
-## Meeting 5 — Content preservation and loss evaluation (5 October 2026)
+## Meeting 5 — Content preservation and loss evaluation
+
+**Date:** 5 October 2026
 
 ### Material presented
 
@@ -318,7 +328,7 @@ and
 8. Refine the content-loss formulation if the real-world evaluation indicates that this is necessary.
 
 
-## Meeting 6 — NLI anomalies, content-evaluation validation, and VoicePrivacy baseline (9 October 2026)
+## Meeting 6 — NLI anomalies, content-evaluation validation, and VoicePrivacy baseline
 
 ### Material presented
 - Presented the content-preservation pipeline: Faster-Whisper transcription of original and anonymized audio, followed by semantic similarity, NLI, and TPI.
