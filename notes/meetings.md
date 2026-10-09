@@ -316,3 +316,57 @@ and
 6. Apply the current content losses to the real data.
 7. Analyze how the losses behave empirically before drawing conclusions about their validity or usefulness.
 8. Refine the content-loss formulation if the real-world evaluation indicates that this is necessary.
+
+
+## Meeting 6 — NLI anomalies, content-evaluation validation, and VoicePrivacy baseline
+
+**Date:** 9 October 2026
+
+### Material presented
+- Presented the content-preservation pipeline: Faster-Whisper transcription of original and anonymized audio, followed by semantic similarity, NLI, and TPI.
+- Presented preliminary results on 100 original/anonymized pairs from the VoicePrivacy Challenge 2026 Track 1 LibriSpeech development subset, using B2 McAdams anonymization.
+- Showed examples where semantic similarity and TPI were high but NLI predicted neutrality or contradiction.
+- Proposed a possible LLM-based fact-level verification stage for suspicious cases.
+
+### Main feedback and decisions
+
+#### 1. Priority: understand the NLI anomaly before proposing a solution
+- Prof. Cavallaro stopped the presentation at slide 9, where one pair had similarity 0.995 and TPI 0.959, but NLI probabilities of 0.051 entailment and 0.609 contradiction.
+- The immediate priority is to understand **why this result occurred**, not to immediately add another model to compensate for it.
+- The case is not yet confirmed as an NLI failure. Inspect the complete original and anonymized transcripts and the corresponding audio.
+- Investigate possible causes systematically:
+  - genuine differences in the full transcripts;
+  - ASR errors on either the original or anonymized audio;
+  - NLI inference configuration, including premise/hypothesis order, truncation, and input formatting;
+  - limitations or sensitivity of the NLI model.
+- These are hypotheses to test, not conclusions.
+- Prof. Cavallaro appreciated the initiative to find an engineering solution, while emphasizing that root-cause analysis must come first.
+
+#### 2. Validate ASR and evaluate a larger, randomly sampled dataset
+- The 100-pair experiment is preliminary. Check ASR reliability and whether its errors may explain apparent content differences.
+- Extend the evaluation to a larger sample.
+- Draw **small random subsets from the larger dataset** rather than relying only on hand-picked or suspicious examples. Keep the sampling procedure reproducible and avoid selection bias.
+- Consider testing another voice anonymizer to check whether the observations are specific to B2 McAdams or also appear with other systems.
+
+#### 3. Keep VoicePrivacy Challenge 2026 B2 McAdams as the baseline
+- Prof. Cavallaro knew the VoicePrivacy Challenge 2026 and agreed that B2 McAdams is a good baseline choice.
+- Even if the anonymizer performs poorly on some criterion, it remains useful as a baseline for testing the evaluation framework.
+- The current work evaluates content preservation under an existing anonymizer; it does not yet demonstrate a new anonymization method developed in this project.
+
+#### 4. LLM verification is a later step
+- The proposed LLM-based verification idea was received positively as a potential engineering solution.
+- First explain the NLI behaviour and validate the ASR and evaluation pipeline. Then assess whether an LLM adds value for the cases that remain ambiguous.
+
+#### 5. HPC support
+- Some EPFL HPC issues remain, but they are expected to be resolved.
+- If problems persist, contact **1234@epfl.ch** for support.
+
+### Agreed priorities / next steps
+1. Inspect the complete transcripts and audio for suspicious NLI cases, starting with pair `3000-15664-0001`.
+2. Verify the audio/transcript pairing and compare ASR outputs with the audio for both conditions.
+3. Check the NLI model and inference pipeline, including premise/hypothesis order, truncation, and formatting.
+4. Determine whether the result is explained by actual content differences, ASR errors, an inference/configuration issue, or NLI model limitations.
+5. Repeat the evaluation on a larger dataset using reproducible random sampling.
+6. Consider evaluating another anonymizer while retaining B2 McAdams as the baseline.
+7. Revisit LLM-based fact verification only after the root-cause investigation.
+8. Contact `1234@epfl.ch` if HPC issues persist.
