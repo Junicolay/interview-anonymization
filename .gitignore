@@ -229,3 +229,12 @@ notebooks/pretrained_models/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Local datasets and generated results
+/voxceleb1/
+/data/vpc2026/
+/data/results/
+
+# Local model checkpoints and experiment outputs
+/checkpoints/
+/outputs/
