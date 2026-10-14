@@ -1,0 +1,23 @@
+# Scientific computing
+numpy==2.4.6
+pandas==3.0.6
+scipy==1.17.1
+scikit-learn==1.9.1
+matplotlib==3.11.1
+
+# Deep learning and speaker embeddings
+torch==2.11.0
+speechbrain==1.1.1
+soundfile==0.14.0
+
+# NLP and semantic evaluation
+sentence-transformers==6.1.0
+transformers==5.17.0
+
+# Speech transcription
+faster-whisper==1.2.1
+
+# Notebook utilities
+tqdm==4.70.1
+nbformat==5.11.1
+ipython==9.17.1
