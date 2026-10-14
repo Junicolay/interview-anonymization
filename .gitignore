@@ -238,3 +238,7 @@ notebooks/pretrained_models/
 # Local model checkpoints and experiment outputs
 /checkpoints/
 /outputs/
+
+# Local speaker verification artifacts
+/data/cache/
+/reports/speaker_verification/
