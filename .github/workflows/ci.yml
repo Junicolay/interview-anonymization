@@ -28,4 +28,5 @@ jobs:
         run: ruff check scripts src tests
 
       - name: Run tests
-        run: pytest -q
+        run: python -m pytest -q
+
