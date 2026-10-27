@@ -239,19 +239,18 @@ notebooks/pretrained_models/
 /checkpoints/
 /outputs/
 
-<<<<<<< HEAD
-# Local speaker verification artifacts
-/data/cache/
-=======
 # Local caches and operating-system files
-.DS_Store
 data/cache/
-.pytest_cache/
-.ruff_cache/
 
 # Local Python environments
 .venv/
+.env.*
 
 # Local speaker verification artifacts
->>>>>>> a28e119 (chore: ignore local experiment artifacts)
 /reports/speaker_verification/
+
+# Personal notebook archives (kept locally, not pushed)
+/notebooks/archive/
+
+# External anonymization baseline repository
+/Voice-Privacy-Challenge-2026/

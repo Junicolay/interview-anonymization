@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from src.speaker_verification import compute_eer, cosine_similarity
+from src.attacker_baseline.speaker_verification import compute_eer, cosine_similarity
 
 
 def test_cosine_similarity_identical_vectors():

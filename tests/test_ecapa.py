@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 import torch
 
-from src import ecapa
+from src.attacker_baseline import ecapa
 
 
 def test_load_ecapa_uses_configured_model_directory(monkeypatch, tmp_path):

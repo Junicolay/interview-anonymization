@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from src.verification_trials import (
+from src.attacker_baseline.verification_trials import (
     build_verification_trials,
     select_eligible_speakers,
 )

@@ -19,9 +19,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.embedding_cache import SQLiteEmbeddingCache
-from src.speaker_verification import compute_eer, cosine_similarity
-from src.verification_trials import (
+from src.attacker_baseline.embedding_cache import SQLiteEmbeddingCache
+from src.attacker_baseline.speaker_verification import compute_eer, cosine_similarity
+from src.attacker_baseline.verification_trials import (
     build_verification_trials,
     resolve_audio_path,
     select_eligible_speakers,
@@ -173,7 +173,7 @@ def main() -> None:
             cache_misses += 1
 
             if classifier is None:
-                from src.ecapa import extract_embedding, load_ecapa
+                from src.attacker_baseline.ecapa import extract_embedding, load_ecapa
 
                 print("Cache miss detected: loading ECAPA model...")
                 classifier = load_ecapa()

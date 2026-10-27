@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.embedding_cache import SQLiteEmbeddingCache
+from src.attacker_baseline.embedding_cache import SQLiteEmbeddingCache
 
 
 def test_cache_round_trip(tmp_path):
