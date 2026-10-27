@@ -175,8 +175,8 @@ ruff check scripts src tests
 
 The repository contains research experiments, evaluation methods, and a speaker-verification baseline. It is not a finished, end-to-end speech anonymization product.
 
-- Speaker verification measures identifiability under a specific evaluation setup; it does not prove that every form of speaker identity has been removed.
-- ASR-based content evaluation depends on transcription quality and may introduce errors unrelated to anonymization.
+- **Speaker identifiability:** The current speaker verification baseline evaluates speaker identity using individual utterances. However, interview anonymization must account for multiple utterances from the same speaker, as identity-related information accumulated across an interview may enable identification even when individual utterances provide limited evidence. The current evaluation therefore does not fully capture the risk of speaker re-identification across an entire interview.
+- **ASR:** ASR-based content evaluation depends on transcription quality and may introduce errors unrelated to anonymization.
 - Semantic similarity, NLI, and term-preservation metrics measure different properties and are not interchangeable.
 - Results depend on the selected data, models, thresholds, and experimental configuration.
 
