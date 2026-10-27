@@ -96,3 +96,6 @@ def predict_nli(
                 results.append(scores)
 
     return pd.DataFrame(results, columns=LABELS)
+
+
+    
