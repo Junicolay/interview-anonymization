@@ -171,18 +171,18 @@ If Ruff is installed, run lint checks with:
 ruff check scripts src tests
 ```
 
-## Scope and limitations
+## Scope and Limitations
 
-The repository contains research experiments, evaluation methods, and a speaker-verification baseline. It is not a finished, end-to-end speech anonymization product.
+The repository contains research experiments, evaluation methods, and a speaker-verification baseline. The experiments are part of an ongoing research project and do not constitute a finished, end-to-end speech anonymization system.
 
-- **Speaker identifiability:** The current speaker verification baseline evaluates speaker identity using individual utterances. However, interview anonymization must account for multiple utterances from the same speaker, as identity-related information accumulated across an interview may enable identification even when individual utterances provide limited evidence. The current evaluation therefore does not fully capture the risk of speaker re-identification across an entire interview.
-- **ASR:** ASR-based content evaluation depends on transcription quality and may introduce errors unrelated to anonymization.
-- Semantic similarity, NLI, and term-preservation metrics measure different properties and are not interchangeable.
-- Results depend on the selected data, models, thresholds, and experimental configuration.
+- **Speaker identifiability:** The current speaker-verification baseline evaluates individual utterances independently. However, interview anonymization must account for multiple utterances from the same speaker, as identity-related information can accumulate across an interview. The current evaluation therefore does not fully capture the risk of re-identification when an attacker has access to multiple utterances from the same interview.
 
-The research aims to establish reliable evaluation methods and better understand the trade-off between speaker privacy and semantic content preservation.
+- **NLI reliability:** Initial experiments have revealed inconsistencies in the Natural Language Inference (NLI) evaluation. In some cases, identical original and anonymized sentences are classified as contradictory. We are investigating the causes of these unexpected predictions to understand the reliability and limitations of NLI for evaluating content preservation.
 
-## Acknowledgements
+- **ASR:** ASR-based content evaluation depends on transcription quality. Transcription errors may affect the measured content preservation and can be mistaken for changes introduced by anonymization.
 
-This work is conducted at the EPFL MINTS Lab under the supervision of Prof. Andrea Cavallaro.
+- **Content-preservation metrics:** Semantic similarity, NLI, and term-preservation metrics capture different aspects of content preservation. Their results are complementary and should not be interpreted as interchangeable measures of information loss.
 
+- **Anonymizer scope:** The current evaluation pipeline has been tested using a baseline anonymization method. This baseline serves as an initial test case for the evaluation methodology and does not represent the final anonymization approach being developed. The results therefore characterize the evaluation setup on this baseline, rather than the performance of the final anonymizer.
+
+The research aims to develop reliable evaluation methods and better understand the trade-off between speaker privacy and semantic content preservation.
