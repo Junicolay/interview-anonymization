@@ -238,3 +238,19 @@ notebooks/pretrained_models/
 # Local model checkpoints and experiment outputs
 /checkpoints/
 /outputs/
+
+# Local caches and operating-system files
+data/cache/
+
+# Local Python environments
+.venv/
+.env.*
+
+# Local speaker verification artifacts
+/reports/speaker_verification/
+
+# Personal notebook archives (kept locally, not pushed)
+/notebooks/archive/
+
+# External anonymization baseline repository
+/Voice-Privacy-Challenge-2026/
