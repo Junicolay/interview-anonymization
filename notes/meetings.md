@@ -386,3 +386,76 @@ and
 6. Consider evaluating another anonymizer while retaining B2 McAdams as the baseline.
 7. Revisit LLM-based fact verification only after the root-cause investigation.
 8. Contact `1234@epfl.ch` if HPC issues persist.
+
+## Meeting 7 — Paper review, metric validation, and implementation direction
+
+**Date:** 2 November 2026
+
+### Material presented
+
+#### 1. Content-preservation metrics
+
+- Presented the exploration of the three content-preservation metrics used in the project:
+  - **Semantic similarity:** measures global semantic proximity between the original and anonymized transcripts.
+  - **Text Preserved Information (TPI):** estimates how much information from the original text is preserved.
+  - **Natural Language Inference (NLI):** evaluates whether the anonymized text remains consistent with the information conveyed by the original.
+- In the examined cases where all three metrics returned high preservation scores, their behaviour was consistent with the content being preserved.
+
+#### 2. Resolution of the NLI issue raised in Meeting 6
+
+- The apparent NLI inconsistencies discussed in Meeting 6 were traced to insufficient verification of the raw data.
+- After checking and correcting the raw-data inputs/pairings, the issue was resolved.
+- The earlier observations should therefore not be treated as evidence of an intrinsic NLI-model failure.
+
+#### 3. Review of Aggazzotti et al.
+
+- Presented the paper *Content Anonymization for Privacy in Long-form Audio* and its contextual LLM-based paraphrasing pipeline.
+- Discussed the segment-based paraphrasing strategy, condensation, semantic alignment metrics (GAS and DTW-Sim), and XTTS speech synthesis.
+- Presented the paper's observation that Gemma-generated text was less detectable as AI-generated than GPT-generated text in the reported experiments.
+
+### Feedback / decisions
+
+#### 1. Gemma versus GPT detectability
+
+- Prof. Cavallaro found the paper's result that Gemma outputs are less detectable as AI-generated than GPT outputs particularly interesting.
+- This observation is worth understanding more carefully when reproducing the paper's experiments and comparing the models.
+- Detectability should be interpreted as a separate evaluation dimension, rather than as direct evidence of better semantic preservation or privacy.
+
+#### 2. Need for an explicit loss
+
+- Prof. Cavallaro noted that the paper does not develop an explicit loss function to optimize content anonymization.
+- This leaves an interesting research opportunity: move beyond evaluating paraphrases and investigate an objective that can guide or train a model to balance content preservation and anonymization.
+
+#### 3. Validate the baseline before developing a more complex model
+
+- The proposed project direction was well received.
+- The baseline and the proposed potential improvements were validated as a research direction.
+- The project should first implement and compare the approach carefully against the state of the art.
+- Only after establishing a reliable baseline and a convincing comparison should the project move towards developing a more complex model.
+
+#### 4. Study the paper's methods and components in more detail
+
+- A deeper understanding is required before implementation, particularly for:
+  - **Condensation:** how the paraphrasing prompts shorten or restructure the discourse.
+  - **GAS (Greedy Alignment Score):** how utterances are matched and how the alignment score is computed.
+  - **DTW-Sim (Dynamic Time Warping Similarity):** how flexible sequence alignment is performed and how the similarity score is derived.
+  - **XTTS:** how the text-to-speech model synthesizes the paraphrased transcript using a target voice.
+- These components should be understood well enough to reproduce and critically assess the reference pipeline.
+
+#### 5. Move to implementation
+
+- The next stage is to implement the relevant components of the reference paper and the proposed evaluation/improvement pipeline.
+- The implementation should begin with a faithful and reproducible baseline, followed by a controlled comparison with the proposed metric-guided improvements.
+- The development of a more complex, trainable model and an explicit optimization loss should follow the baseline comparison, rather than precede it.
+
+### Agreed priorities / next steps
+
+1. Study the reference implementation and prompts, with particular attention to contextual segment-based paraphrasing and condensation.
+2. Understand and implement **GAS** and **DTW-Sim**, including controlled tests of their alignment behaviour.
+3. Study **XTTS** and integrate the TTS component required to reproduce the reference ASR--LLM--TTS pipeline.
+4. Reproduce the relevant reference baseline as faithfully as possible and document any deviations from the paper.
+5. Integrate the project's three content-preservation metrics (Semantic Similarity, TPI, and NLI) into the same evaluation setup.
+6. Compare the original reference pipeline with the metric-guided revision approach under consistent data and evaluation conditions.
+7. Compare the results with the state of the art, including both content preservation and privacy; examine Gemma/GPT detectability as a separate dimension where feasible.
+8. Based on the baseline results, investigate an explicit loss or training objective and then develop a more complex model if justified by the experiments.
+
