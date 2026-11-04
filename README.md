@@ -12,6 +12,25 @@ An anonymization method may make a speaker harder to identify while unintentiona
 
 The project combines speaker-identification experiments, speech processing, natural language processing, and quantitative evaluation to investigate this trade-off.
 
+## Project direction: Linguistic and stylometric style transfer
+
+### Linguistic and stylometric style transfer for long-form speech anonymization
+
+In long-form recordings, an adversary may re-identify a speaker by analyzing persistent linguistic and stylistic characteristics, such as accent, dialectal variations, syntax, vocabulary, and individual phrasing habits.
+
+Traditional speech anonymization methods primarily focus on modifying voice characteristics or removing explicit Personally Identifiable Information (PII), such as names and locations. However, they generally do not address persistent linguistic patterns that can reveal a speaker's identity across extended recordings.
+
+The objective of this research project is to investigate **linguistic and stylometric anonymization** through sequence-to-sequence style-transfer models. We aim to develop an AI framework capable of transforming or obfuscating individual speaking styles, syntactic patterns, and dialectal markers while preserving the semantic content of the original speech.
+
+The research focuses primarily on:
+
+- French and Italian.
+- German, including Swiss German dialects.
+
+Evaluation will involve human participants and real-world datasets, in collaboration with **Radio Télévision Suisse (RTS)**.
+
+The central research challenge is to reduce speaker-identifying linguistic information while maintaining the meaning, information, and overall coherence of long-form speech.
+
 ## Research objectives
 
 The project addresses three complementary questions:
