@@ -233,6 +233,8 @@ notebooks/pretrained_models/
 # Local datasets and generated results
 /voxceleb1/
 /data/vpc2026/
+/data/raw/
+/data/processed/
 /data/results/
 /data/aggazzotti_test/
 /data/voice_anonymization/
@@ -244,7 +246,6 @@ notebooks/pretrained_models/
 
 # Local caches and operating-system files
 data/cache/
-/data/processed/monoted/
 
 # Local Python environments
 .venv/
@@ -252,6 +253,7 @@ data/cache/
 
 # Local speaker verification artifacts
 /reports/speaker_verification/
+/reports/figures/
 
 # Personal notebook archives (kept locally, not pushed)
 /notebooks/archive/

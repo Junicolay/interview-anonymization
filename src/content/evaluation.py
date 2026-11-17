@@ -1,8 +1,8 @@
 
 import pandas as pd
 
-from src.content.semantic_alignment import semantic_align
-from src.content.tpi import estimate_all_term_ic
+from .semantic_alignment import semantic_align
+from .tpi import estimate_all_term_ic
 
 
 def tpi_from_alignment(

@@ -1,24 +1,59 @@
-# Local data
+# Data and local configuration
 
-Datasets, source recordings, generated transcripts, model outputs, and caches
-are kept out of version control. Check each dataset's access and redistribution
-terms before downloading or sharing it.
+Raw datasets, generated audio, model weights, and experiment outputs are not
+downloaded automatically. Obtain each dataset under its access and
+redistribution terms. Local raw and processed data paths are ignored by Git.
 
-## MonoTED
+## MonoTED preparation
 
-Place an authorized MonoTED copy under `data/raw/MonoTED/`. The preparation
-script writes its manifest and extracted utterance audio to
-`data/processed/monoted/`; that generated directory is ignored by Git.
+The maintained command is `make prepare-monoted`. By default it expects:
 
-## Research notebooks
+```text
+data/raw/MonoTED/
+├── audio_wav/
+│   └── <recording-id>.wav
+├── transcripts/
+│   └── <recording-id>.txt
+└── names_and_labels.csv
+```
 
-Notebook 08 expects local VoxCeleb audio and the versioned metadata file
-`data/metadata/voxceleb_utterances.parquet`.
+The CSV must have `Name` and `File` columns. `File` is the recording ID used
+for matching the WAV and transcript files. Override the input directory with
+`--root`; override outputs with `--output-dir`. The default output is
+`data/processed/monoted/`, containing a JSONL manifest and extracted
+timestamped WAV segments. Both directories are ignored by Git.
 
-Notebook 10 expects local experiment inputs under `data/aggazzotti_test/`.
-Those files are not distributed by this repository. Use data you are permitted
-to access and process.
+Example:
 
-Do not commit raw recordings, transcripts, model responses, generated audio,
-or caches unless their licenses explicitly permit redistribution and the
-project maintainers have approved the addition.
+```bash
+make prepare-monoted ARGS="--root /path/to/MonoTED --limit 1 --model-size tiny --device cpu --compute-type int8"
+```
+
+## Research notebook inputs
+
+- **Notebook 08:** requires local VoxCeleb WAV audio and
+  `data/metadata/voxceleb_utterances.parquet`. The metadata file is present in
+  this checkout; the audio is not included.
+- **Notebook 09:** expects the VPC subset and anonymized WAV outputs under
+  `data/vpc2026/`. Those inputs are not included.
+- **Notebook 10:** requires experiment inputs under `data/aggazzotti_test/`
+  and helper scripts under `external/long-form-speech-anonymization/`. The
+  experiment inputs are not included in the public repository. Gemma inference
+  uses `google/gemma-3-4b-it`; model access and adequate memory are required.
+- Other notebooks may use additional VoxCeleb metadata, checkpoints, and
+  locally generated outputs. Inspect their configuration cells before running.
+
+For the extended Fisher workflow in `external/`, obtain the licensed Fisher
+corpora and follow its `DATA.md`. Set the relevant `speech_attribution_dir` or
+`ldc_trials_dir`, `trials_info_dir`, and `utterance_audio_dir` values in
+`external/long-form-speech-anonymization/config.yaml`. That workflow has
+separate dependencies documented in its own `requirements.txt`.
+
+The repository includes some metadata. Check dataset and transcript licenses
+before redistributing the repository or publishing derived outputs.
+
+## Reproducibility and Git
+
+Keep downloaded corpora and generated outputs out of version control. Before
+adding any data file, confirm its provenance, license, and necessity; stage
+specific files rather than using `git add data/`.

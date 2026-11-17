@@ -173,10 +173,6 @@ Create prompt files from call 2 utterances according to your prompt recipe/templ
    python scripts/content_anonymization/generate_paraphrase_prompts.py
    ```
 
-```bash
-python scripts/generate_paraphrase_prompts.py
-```
-
 3. **Run paraphrasing model/API**
 
 Produce anonymized text for the **second side** of each trial (call 2).

@@ -198,7 +198,7 @@ def main() -> None:
     except ImportError as exc:
         raise ImportError(
             "Faster-Whisper is required. Install project dependencies with "
-            "`python -m pip install -r requirements.txt`."
+            "`make setup-minimal` from the repository root."
         ) from exc
 
     recordings = MonoTEDAdapter(args.root).load_recordings()

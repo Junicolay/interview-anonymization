@@ -1,48 +1,89 @@
-
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "interview-anonymization"
 version = "0.1.0"
-description = "Research code for speaker anonymization and content preservation"
+description = "Research code for speech privacy and content-preservation experiments"
 requires-python = ">=3.9"
 dependencies = [
-    "numpy>=2.0,<2.1",
-    "pandas>=2.3,<2.4",
-    "tqdm>=4.70,<5",
+    "faster-whisper>=1.1,<2",
+    "numpy>=1.23.5,<2.1",
+    "pandas>=2.2,<3",
+    "scipy>=1.10,<2",
+    "tqdm>=4.60,<5",
 ]
 
 [project.optional-dependencies]
-asr = [
-    "faster-whisper>=1.1,<2",
-]
-content = [
-    "scipy>=1.13,<1.14",
-    "sentence-transformers>=3.4,<4",
-    "torch>=2.5.1,<2.9",
-    "transformers>=4.50,<5",
-]
-dev = [
-    "pytest>=8,<9",
-    "ruff>=0.11,<1",
+cpu = [
+    "torch==2.5.1",
+    "torchaudio==2.5.1",
 ]
 gpu = [
     "torch==2.5.1",
     "torchaudio==2.5.1",
 ]
 notebooks = [
-    "ipython>=8.18,<9",
-    "matplotlib>=3.9,<3.10",
+    "ipython>=8.18,<10",
+    "jupyterlab>=4.2,<5",
+    "matplotlib>=3.8,<4",
     "nbformat>=5.10,<6",
-    "scikit-learn>=1.6,<1.7",
+    "scikit-learn>=1.5,<2",
+    "soundfile>=0.12,<1",
+    "speechbrain>=1,<2",
+]
+research = [
+    "sentencepiece>=0.2,<1",
+    "sentence-transformers>=3.3,<5",
+    "transformers>=4.45,<5",
+]
+
+[project.scripts]
+prepare-monoted = "scripts.prepare_monoted:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8,<9",
+    "ruff>=0.11,<1",
+]
+
+[tool.uv]
+required-version = ">=0.8"
+conflicts = [
+    [
+        { extra = "cpu" },
+        { extra = "gpu" },
+    ],
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu121"
+url = "https://download.pytorch.org/whl/cu121"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu121", extra = "gpu" },
+]
+torchaudio = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu121", extra = "gpu" },
 ]
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["src", "src.*"]
+include = ["src", "src.*", "scripts", "scripts.*"]
 namespaces = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
 
 [tool.ruff]
 target-version = "py39"

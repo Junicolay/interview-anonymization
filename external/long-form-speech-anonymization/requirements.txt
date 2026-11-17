@@ -7,6 +7,7 @@ torch>=1.10
 torchaudio>=0.10
 transformers>=4.30
 sentencepiece>=0.1.99
+openai-whisper>=20231117
 scikit-learn>=1.0
 sentence-transformers>=2.2
 dtw-python>=1.1
