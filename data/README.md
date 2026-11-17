@@ -31,9 +31,10 @@ make prepare-monoted ARGS="--root /path/to/MonoTED --limit 1 --model-size tiny -
 
 ## Research notebook inputs
 
-- **Notebook 08:** requires local VoxCeleb WAV audio and
-  `data/metadata/voxceleb_utterances.parquet`. The metadata file is present in
-  this checkout; the audio is not included.
+- **Notebook 08:** requires local VoxCeleb WAV audio and a locally provided
+  `data/metadata/voxceleb_utterances.parquet` metadata file. Neither file is
+  included in the repository. Prepare the metadata from VoxCeleb data you are
+  authorized to use before running the notebook.
 - **Notebook 09:** expects the VPC subset and anonymized WAV outputs under
   `data/vpc2026/`. Those inputs are not included.
 - **Notebook 10:** requires experiment inputs under `data/aggazzotti_test/`
@@ -49,8 +50,8 @@ corpora and follow its `DATA.md`. Set the relevant `speech_attribution_dir` or
 `external/long-form-speech-anonymization/config.yaml`. That workflow has
 separate dependencies documented in its own `requirements.txt`.
 
-The repository includes some metadata. Check dataset and transcript licenses
-before redistributing the repository or publishing derived outputs.
+Check dataset and transcript licenses before using or publishing derived
+outputs.
 
 ## Reproducibility and Git
 

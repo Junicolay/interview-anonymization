@@ -238,6 +238,7 @@ notebooks/pretrained_models/
 /data/results/
 /data/aggazzotti_test/
 /data/voice_anonymization/
+/data/metadata/voxceleb_utterances.parquet
 /data/metadata/lang_vox1_final.csv
 
 # Local model checkpoints and experiment outputs

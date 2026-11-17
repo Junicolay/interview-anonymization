@@ -103,9 +103,9 @@ workflows may need those additional dependencies and licensed datasets.
 ## Data and reproducibility
 
 Raw speech datasets, model weights, caches, and generated outputs should remain
-local. The repository includes some experiment inputs and metadata; verify
-their redistribution terms before publishing or sharing a copy. Dataset access
-and licensing are the user's responsibility.
+local. Verify redistribution terms before publishing or sharing experiment
+inputs or derived outputs. Dataset access and licensing are the user's
+responsibility.
 
 For reproducible runs, record the dataset version, model identifier, command
 line, relevant parameters, and Git commit. Dependencies are declared in
