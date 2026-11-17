@@ -2,7 +2,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForMaskedLM
 from sentence_transformers import SentenceTransformer
 
-from content.nli import load_nli_model as _load_nli_model
+from src.content.nli import load_nli_model as _load_nli_model
 
 
 def load_tpi_model(

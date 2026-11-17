@@ -1,6 +1,7 @@
-# Interview Anonymization: Identity Protection and Content Preservation
+# Interview Anonymization
 
-Research project at the **EPFL MINTS Lab**, supervised by Prof. Andrea Cavallaro.
+Research code for studying privacy and content preservation in long-form speech.
+The project is in progress; it is not a finished anonymization system.
 
 ## Overview
 
@@ -10,9 +11,10 @@ This project investigates the trade-off between **speaker privacy** and **semant
 
 An anonymization method may make a speaker harder to identify while unintentionally changing words, removing important details, or altering meaning. Evaluating both objectives is therefore essential.
 
-The project combines speaker-identification experiments, speech processing, natural language processing, and quantitative evaluation to investigate this trade-off.
+The project combines speech processing, natural language processing, and
+quantitative evaluation to investigate this trade-off.
 
-## Project direction: Linguistic and stylometric style transfer
+## Research direction: Linguistic and stylometric style transfer
 
 ### Linguistic and stylometric style transfer for long-form speech anonymization
 
@@ -22,42 +24,35 @@ Traditional speech anonymization methods primarily focus on modifying voice char
 
 The objective of this research project is to investigate **linguistic and stylometric anonymization** through sequence-to-sequence style-transfer models. We aim to develop an AI framework capable of transforming or obfuscating individual speaking styles, syntactic patterns, and dialectal markers while preserving the semantic content of the original speech.
 
-The research focuses primarily on:
+The planned research focuses primarily on:
 
 - French and Italian.
 - German, including Swiss German dialects.
 
 Evaluation will involve human participants and real-world datasets, in collaboration with **Radio Télévision Suisse (RTS)**.
 
-The central research challenge is to reduce speaker-identifying linguistic information while maintaining the meaning, information, and overall coherence of long-form speech.
+The central research challenge is to reduce speaker-identifying linguistic
+information while maintaining the meaning and coherence of long-form speech.
+The style-transfer anonymizer itself is not implemented in this repository yet.
 
-## Research objectives
+## Current implementation
 
-The project addresses three complementary questions:
+The repository currently provides:
 
-1. **Identity protection:** How much speaker-identifying information remains in an anonymized recording?
-2. **Content preservation:** How much of the original meaning and information survives anonymization?
-3. **Evaluation methodology:** Which metrics best capture content loss, and where do their conclusions agree or disagree?
+- Content-preservation utilities for semantic alignment, term information
+  content, and transcript diagnostics.
+- ASR/audio helpers and a MonoTED adapter that prepares timestamped utterance
+  audio.
+- Research notebooks for selected content-preservation experiments.
+- A retained Gemma-based experiment notebook (10) that requires local inputs
+  and separately maintained code under `external/`.
 
-## Methodology
+These are research components, not an end-to-end anonymization pipeline.
 
-### 1. Speaker identifiability
+## Content preservation
 
-The repository implements an ECAPA-TDNN-based speaker-verification baseline using pretrained SpeechBrain embeddings.
-
-The baseline includes:
-
-- Generation of positive and negative speaker-verification trials.
-- Extraction and caching of speaker embeddings.
-- Cosine-similarity scoring.
-- Equal Error Rate (EER) and associated decision threshold.
-- False Acceptance Rate (FAR) and False Rejection Rate (FRR).
-
-This is an evaluation baseline, not a complete anonymization system.
-
-### 2. Content preservation
-
-Content-preservation experiments compare original and anonymized speech, using transcripts to investigate whether anonymization changes the information conveyed.
+Experiments compare original and transformed transcripts to investigate
+whether anonymization changes the information conveyed.
 
 | Method | Purpose |
 | --- | --- |
@@ -67,32 +62,26 @@ Content-preservation experiments compare original and anonymized speech, using t
 | Semantic similarity | Compare contextual text representations. |
 | Natural Language Inference (NLI) | Investigate semantic consistency between original and anonymized transcripts. |
 
-These methods capture different aspects of content preservation. Their agreement and disagreements are part of the research.
-
-### 3. Experimental analysis
-
-Research notebooks document experiments involving speaker representations, content representations, metric validation, semantic alignment, and original/anonymized speech pairs.
-
-The objective is to understand not only whether information appears to be lost, but also which parts of the content are affected and why different metrics may reach different conclusions.
+These methods capture different aspects of content preservation. Their
+agreement and disagreement are part of the research.
 
 ## Repository structure
 
 ```text
 .
-├── data/                   # Dataset metadata and experiment artifacts
-├── notebooks/              # Research experiments and analyses
-│   └── archive/             # Archived notebooks
+├── data/                   # Data instructions; datasets stay local
+├── external/                # Temporary, separate long-form experiment code
+├── notebooks/              # Selected research experiments
+├── notes/                   # Research notes
 ├── scripts/                # Experiment entry points
 ├── src/
-│   ├── datasets/            # Dataset adapters and shared recording types
-│   ├── attacker_baseline/   # Speaker-verification baseline
 │   ├── content/             # Content-preservation evaluation
+│   ├── datasets/            # Dataset adapters and shared recording types
 │   ├── asr.py               # Speech transcription utilities
-│   ├── paths.py             # Shared project paths
-│   └── utils.py             # Shared utilities
-├── tests/                   # Tests for selected modules
-├── requirements.txt
-└── requirements-dev.txt
+│   ├── audio.py             # WAV utilities
+│   └── paths.py             # Shared project paths
+├── tests/                   # Unit tests for maintained utilities
+└── pyproject.toml           # Dependencies, extras, and package metadata
 ```
 
 **Design principle:** notebooks support exploration and interpretation; reusable functionality belongs in `src/`, and repeatable command-line experiments belong in `scripts/`.
@@ -137,7 +126,9 @@ speaker re-identification.
 
 ### Requirements
 
-Python 3.11 is recommended. Some experiments require pretrained models and local datasets that are not included in this repository.
+Python 3.9 or newer is supported; Python 3.11 is recommended. Some
+experiments require pretrained models and local datasets that are not included
+in this repository.
 
 Clone the repository:
 
@@ -146,75 +137,28 @@ git clone https://github.com/Junicolay/interview-anonymization.git
 cd interview-anonymization
 ```
 
-Create an isolated environment with Python 3.11 and install the project dependencies.
-
-### Standard CPU environment
+Create an isolated environment and install the project plus the experiment and
+development extras:
 
 ```bash
-python3.11 -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
-
 python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+python -m pip install -e ".[asr,content,dev,notebooks]"
 ```
 
-If you also want the development tooling, install the dev requirements in the same environment:
-
-```bash
-python -m pip install -r requirements-dev.txt
-```
-
-### EPFL HPC GPU environment (CUDA 12.1 wheels)
-
-The HPC GPU nodes provide NVIDIA Tesla V100 GPUs with CUDA 12.2 driver support. Use the CUDA 12.1 PyTorch wheelhouse for the GPU stack instead of pinning a newer torch build:
+For the CUDA 12.1 PyTorch build used on the EPFL GPU environment:
 
 ```bash
 module load python/3.11
 python3.11 -m venv .venv
 source .venv/bin/activate
-
 python -m pip install --upgrade pip
-python -m pip install -r requirements-gpu.txt
+python -m pip install --extra-index-url https://download.pytorch.org/whl/cu121 \
+  -e ".[asr,content,dev,gpu,notebooks]"
 ```
-
-The GPU requirements file includes the shared project requirements, then overlays the CUDA-enabled PyTorch stack (`torch==2.5.1` and `torchaudio==2.5.1`) from the official PyTorch CUDA 12.1 package index.
 
 Some notebooks may require additional model downloads or experiment-specific setup. Check the relevant notebook before running it.
-
-## Running the speaker-verification baseline
-
-From the repository root:
-
-```bash
-python scripts/run_speaker_verification.py
-```
-
-By default, the script expects:
-
-- Metadata at `data/metadata/voxceleb_utterances.parquet`
-- VoxCeleb audio under `voxceleb1/wav/`
-
-The metadata must contain the columns `speaker_id`, `video_id`, and `path`.
-
-You can override the data paths and experiment configuration:
-
-```bash
-python scripts/run_speaker_verification.py \
-  --metadata /path/to/voxceleb_utterances.parquet \
-  --audio-root /path/to/voxceleb1/wav \
-  --seed 42 \
-  --n-speakers 100
-```
-
-Inspect all supported arguments with:
-
-```bash
-python scripts/run_speaker_verification.py --help
-```
-
-The script generates verification trials, extracts or reuses cached embeddings, computes evaluation metrics, and writes experiment reports.
-
-Check output paths before running experiments, particularly when reproducing earlier results.
 
 ## Data and reproducibility
 
@@ -230,9 +174,8 @@ For reproducible experiments, record where applicable:
 - Input data and trial-file hashes.
 - Evaluation results and the Git commit used.
 
-The speaker-verification pipeline records experiment configuration, input hashes, metrics, runtime, and Git revision when available.
-
-These records improve traceability but do not guarantee identical results across environments or hardware.
+These records improve traceability but do not guarantee identical results
+across environments or hardware.
 
 See [`data/README.md`](data/README.md) for additional information.
 
@@ -244,17 +187,16 @@ Run the tests with:
 python -m pytest -q
 ```
 
-If Ruff is installed, run lint checks with:
+Run lint checks with:
 
 ```bash
-ruff check scripts src tests
+python -m ruff check scripts src tests
 ```
 
 ## Scope and Limitations
 
-The repository contains research experiments, evaluation methods, and a speaker-verification baseline. The experiments are part of an ongoing research project and do not constitute a finished, end-to-end speech anonymization system.
-
-- **Speaker identifiability:** The current speaker-verification baseline evaluates individual utterances independently. However, interview anonymization must account for multiple utterances from the same speaker, as identity-related information can accumulate across an interview. The current evaluation therefore does not fully capture the risk of re-identification when an attacker has access to multiple utterances from the same interview.
+The experiments are part of an ongoing research project and do not constitute a
+finished, end-to-end speech anonymization system.
 
 - **NLI reliability:** Initial experiments have revealed inconsistencies in the Natural Language Inference (NLI) evaluation. In some cases, identical original and anonymized sentences are classified as contradictory. We are investigating the causes of these unexpected predictions to understand the reliability and limitations of NLI for evaluating content preservation.
 
@@ -262,6 +204,8 @@ The repository contains research experiments, evaluation methods, and a speaker-
 
 - **Content-preservation metrics:** Semantic similarity, NLI, and term-preservation metrics capture different aspects of content preservation. Their results are complementary and should not be interpreted as interchangeable measures of information loss.
 
-- **Anonymizer scope:** The current evaluation pipeline has been tested using a baseline anonymization method. This baseline serves as an initial test case for the evaluation methodology and does not represent the final anonymization approach being developed. The results therefore characterize the evaluation setup on this baseline, rather than the performance of the final anonymizer.
+- **Anonymizer scope:** The planned linguistic/style-transfer anonymizer is not
+  yet implemented. Existing notebooks and utilities are exploratory and should
+  not be read as evidence of a complete anonymization system.
 
 The research aims to develop reliable evaluation methods and better understand the trade-off between speaker privacy and semantic content preservation.

@@ -6,7 +6,6 @@ import re
 from typing import Union
 
 import pandas as pd
-import numpy as np
 import torch
 
 

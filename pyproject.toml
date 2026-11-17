@@ -8,9 +8,45 @@ name = "interview-anonymization"
 version = "0.1.0"
 description = "Research code for speaker anonymization and content preservation"
 requires-python = ">=3.9"
+dependencies = [
+    "numpy>=2.0,<2.1",
+    "pandas>=2.3,<2.4",
+    "tqdm>=4.70,<5",
+]
 
-[tool.setuptools]
-package-dir = {"" = "src"}
+[project.optional-dependencies]
+asr = [
+    "faster-whisper>=1.1,<2",
+]
+content = [
+    "scipy>=1.13,<1.14",
+    "sentence-transformers>=3.4,<4",
+    "torch>=2.5.1,<2.9",
+    "transformers>=4.50,<5",
+]
+dev = [
+    "pytest>=8,<9",
+    "ruff>=0.11,<1",
+]
+gpu = [
+    "torch==2.5.1",
+    "torchaudio==2.5.1",
+]
+notebooks = [
+    "ipython>=8.18,<9",
+    "matplotlib>=3.9,<3.10",
+    "nbformat>=5.10,<6",
+    "scikit-learn>=1.6,<1.7",
+]
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["."]
+include = ["src", "src.*"]
+namespaces = false
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
