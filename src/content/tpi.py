@@ -3,6 +3,7 @@
 
 import math
 import re
+from typing import Union
 
 import pandas as pd
 import numpy as np
@@ -34,7 +35,7 @@ def term_subtokens(term: str, tokenizer) -> list[str]:
 
 def build_masked_text(
     text: str,
-    target_indices: list[int] | set[int],
+    target_indices: Union[list[int], set[int]],
     tokenizer,
 ) -> tuple[str, dict[int, int]]:
     """Replace selected terms with the corresponding number of mask tokens."""
@@ -76,10 +77,10 @@ def build_masked_text(
 
 def masked_term_probabilities(
     text: str,
-    target_indices: list[int] | set[int],
+    target_indices: Union[list[int], set[int]],
     tokenizer,
     model,
-    device: str | torch.device,
+    device: Union[str, torch.device],
 ) -> dict[int, dict]:
     """Estimate contextual probabilities for selected original terms.
 
@@ -174,7 +175,7 @@ def estimate_all_term_ic(
     text: str,
     tokenizer,
     model,
-    device: str | torch.device,
+    device: Union[str, torch.device],
     strategy: str = "N-TA",
     N: int = 6,
 ) -> pd.DataFrame:
@@ -253,7 +254,7 @@ def total_information_content(ic_table: pd.DataFrame) -> float:
 
 def information_loss_from_spans(
     ic_table: pd.DataFrame,
-    affected_term_indices: list[int] | set[int],
+    affected_term_indices: Union[list[int], set[int]],
 ) -> tuple[pd.DataFrame, float]:
     """Return affected original terms and their total information content."""
     required_columns = {"index", "term", "IC"}
@@ -282,7 +283,7 @@ def information_loss_from_spans(
 
 def tpi_from_spans(
     ic_table: pd.DataFrame,
-    affected_term_indices: list[int] | set[int],
+    affected_term_indices: Union[list[int], set[int]],
 ) -> dict:
     """Calculate TPI from the indices of affected original terms.
 
@@ -310,7 +311,7 @@ def tpi_from_spans(
 
 def term_indices(
     text: str,
-    selected_terms: list[str] | set[str],
+    selected_terms: Union[list[str], set[str]],
 ) -> list[int]:
     """Return indices of terms whose lowercase form matches selected terms."""
     selected_terms = {str(term).lower() for term in selected_terms}

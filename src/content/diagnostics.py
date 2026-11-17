@@ -2,6 +2,8 @@
 Text diagnostics and document comparison utilities.
 """
 
+from typing import Optional
+
 import pandas as pd
 
 
@@ -17,7 +19,7 @@ def count_characters(text: str) -> int:
 
 def document_statistics(
     text: str,
-    units: list[str] | None = None,
+    units: Optional[list[str]] = None,
 ) -> dict:
     """
     Compute basic statistics for a document.

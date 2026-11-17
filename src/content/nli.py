@@ -1,5 +1,7 @@
 """Utilities for loading and evaluating Natural Language Inference models."""
 
+from typing import Optional
+
 import torch
 import pandas as pd
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
@@ -21,7 +23,7 @@ def normalize_label(label: str) -> str:
     raise ValueError(f"Unrecognized NLI label: {label!r}")
 
 
-def load_nli_model(model_name: str, device: str | None = None):
+def load_nli_model(model_name: str, device: Optional[str] = None):
     """Load an NLI tokenizer and sequence-classification model."""
     if device is None:
         if torch.backends.mps.is_available():

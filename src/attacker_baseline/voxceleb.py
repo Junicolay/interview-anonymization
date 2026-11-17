@@ -2,6 +2,8 @@
 """Utilities for inspecting the VoxCeleb1 dataset."""
 
 from pathlib import Path
+from typing import Optional
+
 import pandas as pd
 
 
@@ -169,7 +171,7 @@ def filter_eligible_english_videos(
 
 def validate_utterance_manifest(
     utterance_df: pd.DataFrame,
-    voxceleb_wav_dir: Path | None = None,
+    voxceleb_wav_dir: Optional[Path] = None,
     check_paths: bool = True,
 ) -> None:
     """Validate the structure and integrity of an utterance manifest.

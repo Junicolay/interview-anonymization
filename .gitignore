@@ -241,6 +241,7 @@ notebooks/pretrained_models/
 
 # Local caches and operating-system files
 data/cache/
+/data/processed/monoted/
 
 # Local Python environments
 .venv/

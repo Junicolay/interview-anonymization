@@ -4,10 +4,10 @@ Input/output utilities for text anonymization experiments.
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional, Union
 
 
-def load_jsonl(path: str | Path) -> list[dict[str, Any]]:
+def load_jsonl(path: Union[str, Path]) -> list[dict[str, Any]]:
     """
     Load a JSONL file into a list of dictionaries.
     """
@@ -39,7 +39,7 @@ def load_jsonl(path: str | Path) -> list[dict[str, Any]]:
 
 def extract_response_content(
     response_row: dict[str, Any],
-    row_index: int | None = None,
+    row_index: Optional[int] = None,
 ) -> str:
     """
     Extract generated text from an OpenAI-compatible response row.
@@ -150,7 +150,7 @@ def reconstruct_document(
 
 def save_text(
     text: str,
-    path: str | Path,
+    path: Union[str, Path],
 ) -> Path:
     """
     Save a text document.
@@ -165,7 +165,7 @@ def save_text(
 
 def save_json(
     data: Any,
-    path: str | Path,
+    path: Union[str, Path],
 ) -> Path:
     """
     Save data as a JSON file.

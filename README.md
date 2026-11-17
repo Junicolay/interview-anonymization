@@ -84,6 +84,7 @@ The objective is to understand not only whether information appears to be lost, 
 │   └── archive/             # Archived notebooks
 ├── scripts/                # Experiment entry points
 ├── src/
+│   ├── datasets/            # Dataset adapters and shared recording types
 │   ├── attacker_baseline/   # Speaker-verification baseline
 │   ├── content/             # Content-preservation evaluation
 │   ├── asr.py               # Speech transcription utilities
@@ -95,6 +96,42 @@ The objective is to understand not only whether information appears to be lost, 
 ```
 
 **Design principle:** notebooks support exploration and interpretation; reusable functionality belongs in `src/`, and repeatable command-line experiments belong in `scripts/`.
+
+### Preparing MonoTED utterances
+
+The MonoTED adapter loads each talk, its reference transcript, and metadata.
+Preparation then transcribes the audio with Faster-Whisper (`medium` by
+default), uses its native timestamped segments as variable-duration utterance
+units, and extracts a WAV for each segment. It does not align the reference
+transcript to audio or split ASR segments into fixed-length chunks. The manifest
+stores both the complete reference and ASR transcripts, per-talk normalized
+WER, and each utterance's ASR text and timestamps.
+
+```bash
+python scripts/prepare_monoted.py
+```
+
+By default, the script reads `data/raw/MonoTED/` and writes
+`data/processed/monoted/manifest.jsonl` and extracted audio under
+`data/processed/monoted/utterance_audio/`. Use `--limit 1` for a one-talk
+smoke test; `--model-size`, `--device`, `--compute-type`, and `--language`
+configure Faster-Whisper. If an utterance WAV already exists, the script stops
+instead of risking a mismatch with newly generated ASR timestamps; use
+`--overwrite` to regenerate the cuts.
+The terminal shows a progress bar for the current talk (based on ASR segment
+timestamps) and an overall counter for completed talks. Model loading is
+announced separately.
+The extracted WAVs duplicate the source audio samples, so a full run requires
+substantial additional disk space.
+
+The ASR segments are the cut boundaries; the reference transcript is only a
+transcription-quality check and does not affect segmentation. Native
+Faster-Whisper segments may not correspond exactly to human-defined utterances,
+and ASR errors can affect both their text and boundaries. This preparation
+stage does not yet wire in Aggazzotti prompt/inference or privacy-evaluation
+stages. Since MonoTED has one talk per speaker, segment-based privacy results
+must be described as within-talk evaluation, not cross-recording
+speaker re-identification.
 
 ## Getting started
 
@@ -109,15 +146,38 @@ git clone https://github.com/Junicolay/interview-anonymization.git
 cd interview-anonymization
 ```
 
-Create an isolated environment and install development dependencies:
+Create an isolated environment with Python 3.11 and install the project dependencies.
+
+### Standard CPU environment
 
 ```bash
-conda create -n interview-anon python=3.11
-conda activate interview-anon
+python3.11 -m venv .venv
+source .venv/bin/activate
 
 python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+If you also want the development tooling, install the dev requirements in the same environment:
+
+```bash
 python -m pip install -r requirements-dev.txt
 ```
+
+### EPFL HPC GPU environment (CUDA 12.1 wheels)
+
+The HPC GPU nodes provide NVIDIA Tesla V100 GPUs with CUDA 12.2 driver support. Use the CUDA 12.1 PyTorch wheelhouse for the GPU stack instead of pinning a newer torch build:
+
+```bash
+module load python/3.11
+python3.11 -m venv .venv
+source .venv/bin/activate
+
+python -m pip install --upgrade pip
+python -m pip install -r requirements-gpu.txt
+```
+
+The GPU requirements file includes the shared project requirements, then overlays the CUDA-enabled PyTorch stack (`torch==2.5.1` and `torchaudio==2.5.1`) from the official PyTorch CUDA 12.1 package index.
 
 Some notebooks may require additional model downloads or experiment-specific setup. Check the relevant notebook before running it.
 

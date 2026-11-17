@@ -3,6 +3,7 @@
 import hashlib
 import sqlite3
 from pathlib import Path
+from typing import Union
 
 import numpy as np
 
@@ -10,7 +11,7 @@ import numpy as np
 class SQLiteEmbeddingCache:
     """Store embeddings on disk and invalidate entries when inputs change."""
 
-    def __init__(self, db_path: str | Path, model_id: str):
+    def __init__(self, db_path: Union[str, Path], model_id: str):
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self.model_id = model_id
@@ -34,7 +35,7 @@ class SQLiteEmbeddingCache:
     def _connect(self):
         return sqlite3.connect(self.db_path)
 
-    def _metadata(self, audio_path: str | Path):
+    def _metadata(self, audio_path: Union[str, Path]):
         path = Path(audio_path).resolve()
         stat = path.stat()
         identity = (
@@ -43,7 +44,7 @@ class SQLiteEmbeddingCache:
         key = hashlib.sha256(identity.encode()).hexdigest()
         return key, path, stat
 
-    def get(self, audio_path: str | Path):
+    def get(self, audio_path: Union[str, Path]):
         key, _, _ = self._metadata(audio_path)
         with self._connect() as connection:
             row = connection.execute(
@@ -62,7 +63,7 @@ class SQLiteEmbeddingCache:
         dimensions = tuple(int(value) for value in shape.split(",") if value)
         return np.frombuffer(data, dtype=np.dtype(dtype)).reshape(dimensions).copy()
 
-    def set(self, audio_path: str | Path, embedding):
+    def set(self, audio_path: Union[str, Path], embedding):
         key, path, stat = self._metadata(audio_path)
         array = np.asarray(embedding)
         if array.dtype == object:

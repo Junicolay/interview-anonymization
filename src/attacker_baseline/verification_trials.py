@@ -2,11 +2,12 @@
 
 import random
 from pathlib import Path
+from typing import Union
 
 import pandas as pd
 
 
-def resolve_audio_path(path: str | Path, audio_root: str | Path) -> Path:
+def resolve_audio_path(path: Union[str, Path], audio_root: Union[str, Path]) -> Path:
     """Resolve an audio path against the local VoxCeleb WAV directory."""
     path = Path(path).expanduser()
     audio_root = Path(audio_root).expanduser().resolve()

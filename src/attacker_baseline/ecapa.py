@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Union
 
 import soundfile as sf
 import torch
@@ -10,7 +11,7 @@ DEFAULT_MODEL_DIR = (
 )
 
 
-def load_ecapa(model_dir: str | Path = DEFAULT_MODEL_DIR):
+def load_ecapa(model_dir: Union[str, Path] = DEFAULT_MODEL_DIR):
     """Load the pretrained ECAPA-TDNN speaker encoder."""
     classifier = EncoderClassifier.from_hparams(
         source="speechbrain/spkrec-ecapa-voxceleb",
@@ -20,7 +21,7 @@ def load_ecapa(model_dir: str | Path = DEFAULT_MODEL_DIR):
 
 
 def extract_embedding(
-    path: str | Path,
+    path: Union[str, Path],
     classifier: EncoderClassifier,
 ) -> torch.Tensor:
     """Extract a speaker embedding from a mono or stereo 16 kHz audio file."""
