@@ -2,7 +2,8 @@
 
 Raw datasets, generated audio, model weights, and experiment outputs are not
 downloaded automatically. Obtain each dataset under its access and
-redistribution terms. Local raw and processed data paths are ignored by Git.
+redistribution terms. Local raw data and processed audio are ignored by Git;
+the curated MonoTED manifest is the exception.
 
 ## MonoTED preparation
 
@@ -21,7 +22,8 @@ The CSV must have `Name` and `File` columns. `File` is the recording ID used
 for matching the WAV and transcript files. Override the input directory with
 `--root`; override outputs with `--output-dir`. The default output is
 `data/processed/monoted/`, containing a JSONL manifest and extracted
-timestamped WAV segments. Both directories are ignored by Git.
+timestamped WAV segments. The manifest is tracked with paths relative to the
+repository root; the WAV segments remain local and are not included.
 
 Example:
 
@@ -55,6 +57,7 @@ outputs.
 
 ## Reproducibility and Git
 
-Keep downloaded corpora and generated outputs out of version control. Before
-adding any data file, confirm its provenance, license, and necessity; stage
-specific files rather than using `git add data/`.
+Keep downloaded corpora and generated audio out of version control. The
+MonoTED manifest is a curated exception. Before adding any other data file,
+confirm its provenance, license, and necessity; stage specific files rather
+than using `git add data/`.

@@ -69,6 +69,10 @@ def write_manifest(
 
 def _json_default(value: object) -> str:
     if isinstance(value, Path):
+        try:
+            return value.relative_to(PROJECT_ROOT).as_posix()
+        except ValueError:
+            pass
         return str(value)
     raise TypeError(f"Object of type {type(value).__name__} is not JSON serializable.")
 

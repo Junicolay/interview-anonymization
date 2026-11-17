@@ -234,7 +234,10 @@ notebooks/pretrained_models/
 /voxceleb1/
 /data/vpc2026/
 /data/raw/
-/data/processed/
+/data/processed/*
+!/data/processed/monoted/
+/data/processed/monoted/*
+!/data/processed/monoted/manifest.jsonl
 /data/results/
 /data/aggazzotti_test/
 /data/voice_anonymization/

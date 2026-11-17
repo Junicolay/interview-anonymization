@@ -119,6 +119,28 @@ def test_manifest_serializes_reference_asr_and_segment_audio_paths(tmp_path):
     assert row["segments"][0]["audio_path"].endswith("utt0000.wav")
 
 
+def test_manifest_serializes_paths_inside_project_relative_to_project_root(
+    tmp_path,
+    monkeypatch,
+):
+    monkeypatch.setattr("scripts.prepare_monoted.PROJECT_ROOT", tmp_path)
+    recording = MonoTEDAdapter(make_dataset(tmp_path)).load_recordings()[0]
+    prepared = prepare_recording(
+        recording,
+        FakeWhisperModel(),
+        tmp_path / "utterances",
+        language="en",
+    )
+    output_path = tmp_path / "manifest.jsonl"
+
+    write_manifest([prepared], output_path)
+
+    row = json.loads(output_path.read_text(encoding="utf-8"))
+    assert row["audio_path"] == "MonoTED/audio_wav/Talk_001.wav"
+    assert row["transcript_path"] == "MonoTED/transcripts/Talk_001.txt"
+    assert row["segments"][0]["audio_path"] == "utterances/Talk_001/utt0000.wav"
+
+
 def test_prepare_recording_requires_overwrite_for_existing_cuts(tmp_path):
     recording = MonoTEDAdapter(make_dataset(tmp_path)).load_recordings()[0]
     utterance_dir = tmp_path / "utterances"

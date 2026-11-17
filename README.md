@@ -34,6 +34,10 @@ For a full run, omit `--limit 1` and optionally choose a larger model such as
 `data/processed/monoted/utterance_audio/`. Existing manifest entries are
 skipped; `--overwrite` reprocesses recordings. See
 `make help` or `make prepare-monoted ARGS="--help"` for options.
+The manifest is tracked with repository-relative paths; generated WAV segments
+remain local and must be transferred separately if needed. If `--root` points
+outside the repository, newly generated manifests retain absolute paths to
+those source files.
 
 The script uses Faster-Whisper timestamps as segment boundaries. ASR segment
 boundaries may not match human-defined utterances, and ASR errors can affect
@@ -102,10 +106,10 @@ workflows may need those additional dependencies and licensed datasets.
 
 ## Data and reproducibility
 
-Raw speech datasets, model weights, caches, and generated outputs should remain
-local. Verify redistribution terms before publishing or sharing experiment
-inputs or derived outputs. Dataset access and licensing are the user's
-responsibility.
+Raw speech datasets, model weights, caches, and generated audio should remain
+local. The curated MonoTED manifest is tracked; verify redistribution terms
+before publishing or sharing other experiment inputs or derived outputs.
+Dataset access and licensing are the user's responsibility.
 
 For reproducible runs, record the dataset version, model identifier, command
 line, relevant parameters, and Git commit. Dependencies are declared in
