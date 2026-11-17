@@ -2,9 +2,10 @@
 """Centralized paths for the interview-anonymization project."""
 
 from pathlib import Path
+from typing import Optional
 
 
-def find_project_root(start: Path | None = None) -> Path:
+def find_project_root(start: Optional[Path] = None) -> Path:
     """Find the project root by locating the src/paths.py file."""
     start = (start or Path.cwd()).resolve()
 

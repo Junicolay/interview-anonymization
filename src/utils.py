@@ -3,9 +3,10 @@
 
 import importlib.util
 from pathlib import Path
+from typing import Union
 
 
-def load_module(module_name: str, file_path: str | Path):
+def load_module(module_name: str, file_path: Union[str, Path]):
     """Load a Python module directly from its file path."""
     file_path = Path(file_path)
 
